@@ -1,0 +1,152 @@
+﻿.jumbotron-board {
+    color: white;
+    height: 80vh;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 100;
+    position: relative;
+    padding-top: 10%;
+}
+
+    .jumbotron-board .header-text {
+        font-size: 42px;
+        margin-bottom: 0;
+    }
+
+    .jumbotron-board .subheader-text {
+        margin: 0;
+    }
+
+.navbar-default {
+    background-color: white;
+    border-color: rgba(231, 231, 231, 0);
+}
+
+.container {
+    font-family: 'Raleway', sans-serif;
+}
+
+.container-fluid {
+    font-family: 'Raleway', sans-serif;
+}
+
+.btn-lg.small-font {
+    font-size: 12px;
+}
+
+.btn-lg.round {
+    border-radius: 24px;
+    margin-top: 30px;
+}
+
+.navbar-toggle .icon-bar {
+    background-color: rgb(45,108,162);
+}
+
+.typebox {
+    font-size: 24px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+
+.searchVisaBox {
+    background-color: rgba(255,255,255,0);
+    color: rgb(45,108,162);
+    border-color: rgba(255,255,255,0);
+    outline: none;
+    text-decoration: underline;
+}
+
+.searchDestinationBox {
+    background-color: rgba(255,255,255,0);
+    color: rgb(45,108,162);
+    border-color: rgba(255,255,255,0);
+    outline: none;
+    font-size: 24px;
+    text-decoration: underline;
+}
+
+.jumbotron .searchVisaContainer {
+    font-size: 24px;
+    margin: 0px;
+    padding: 15px;
+    display: inline-flex;
+    vertical-align: middle;
+    height: 70px;
+    width: 600px;
+}
+
+.jumbotron .searchDestinationContainer {
+    font-size: 24px;
+    margin: 0px;
+    padding: 15px;
+    display: inline-flex;
+    vertical-align: middle;
+    height: 70px;
+    width: 600px;
+}
+
+.jumbotron .searchVisaContainerBack {
+    position: relative;
+    font-size: 24px;
+    padding: 10px 20px;
+    background-color: rgba(255,255,255,0);
+    display: inline-block;
+    vertical-align: middle;
+    z-index: 999;
+}
+
+.jumbotron .homeCountryStyle {
+    font-size: 14px;
+    padding-top: 10px;
+}
+
+.searchTabDiv {
+    display: inline-block;
+    margin: 20px;
+    padding: 10px;
+    height: 200px;
+}
+
+.searchUl.nav-tabs > li.active > a, .searchUl.nav-tabs > li.active > a:hover, .searchUl.nav-tabs > li.active > a:focus {
+    background: rgba(163, 173, 173, 0.4);
+    color: white;
+    border: 0px;
+    opacity: 1;
+}
+
+.searchUl.nav-tabs > li > a {
+    border: 0px;
+    color: #dfebec;
+    background: rgba(77, 95, 97, 0.8);
+    opacity: 0.6;
+}
+
+.searchUl.nav-tabs.pull-right {
+    background: transparent;
+}
+
+.searchUl.nav-tabs {
+    border-bottom: 0px;
+}
+
+
+.div-tab-content {
+    background: rgba(163, 173, 173, 0.4);
+    display: flex;
+}
+
+.body-content {
+    margin: 0px;
+    width: 100%;
+    background: url(../images/fishermen.jpg);
+    no-repeat center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 80vh;
+}
+
+h2 > .label {
+    vertical-align: middle;
+}

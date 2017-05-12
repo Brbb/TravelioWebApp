@@ -1,0 +1,35 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelioCore", "TravelioCore\TravelioCore.csproj", "{6D148954-D162-4C75-8226-849E878A3BFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoApi", "GeoApi\GeoApi.csproj", "{DDD48F00-6868-4F5A-BC0F-1D886970210A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NcdcLib", "NcdcLib\NcdcLib.csproj", "{4E54EE47-B311-4216-83C0-830A71F31FF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimaticApi", "TimaticApi\TimaticApi.csproj", "{6B1C9A97-093F-440D-8806-F7F89C789451}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6D148954-D162-4C75-8226-849E878A3BFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D148954-D162-4C75-8226-849E878A3BFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D148954-D162-4C75-8226-849E878A3BFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D148954-D162-4C75-8226-849E878A3BFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDD48F00-6868-4F5A-BC0F-1D886970210A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDD48F00-6868-4F5A-BC0F-1D886970210A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDD48F00-6868-4F5A-BC0F-1D886970210A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDD48F00-6868-4F5A-BC0F-1D886970210A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E54EE47-B311-4216-83C0-830A71F31FF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E54EE47-B311-4216-83C0-830A71F31FF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E54EE47-B311-4216-83C0-830A71F31FF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E54EE47-B311-4216-83C0-830A71F31FF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B1C9A97-093F-440D-8806-F7F89C789451}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B1C9A97-093F-440D-8806-F7F89C789451}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B1C9A97-093F-440D-8806-F7F89C789451}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B1C9A97-093F-440D-8806-F7F89C789451}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
