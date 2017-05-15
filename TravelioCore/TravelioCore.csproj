@@ -19,6 +19,8 @@
     <ProjectReference Include="..\GeoApi\GeoApi.csproj" />
     <ProjectReference Include="..\NcdcLib\NcdcLib.csproj" />
     <ProjectReference Include="..\TimaticApi\TimaticApi.csproj" />
+    <ProjectReference Include="..\TravelioApi\TravelioApi.csproj" />
+    <ProjectReference Include="..\CloudManager\StorageManager.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Config\" />

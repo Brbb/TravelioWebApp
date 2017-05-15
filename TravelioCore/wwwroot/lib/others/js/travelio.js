@@ -34,6 +34,7 @@
 				console.log(travelio.user.country);
 				setDepartureCountryValueByName(travelio.user.country);
 				$(".btn-profile").text(travelio.user.first_name);
+                $(".btn-profile").append('<span class="caret"></span>');
 		      	$(".btn-profile").show();
 	      	});
       	} 
@@ -107,9 +108,10 @@ function setDepartureCountryValueByName(departureCountryName)
 				dataType: "json", 
 				data: { name: departureCountryName }, 
 				success: function (country) { 
-					$(".btn-home-country").text(country.Name);
-					$('input#departureCountryName').val(country.Name);
-					$('input#passportCountryName').val(country.Name);
+                console.log(country.name);
+					$(".btn-home-country").text(country.name);
+					$('input#departureCountryName').val(country.name);
+					$('input#passportCountryName').val(country.name);
 					$(".destination-link").attr('href',"Destination/Destination?passportCountryCode="+country.Alpha2Code);
 				} 
 			});
@@ -123,9 +125,10 @@ function setDepartureCountryValue(departureCountryCode)
 				dataType: "json", 
 				data: { code: departureCountryCode }, 
 				success: function (country) { 
-					$(".btn-home-country").text(country.Name);
-					$('input#departureCountryName').val(country.Name);
-					$('input#passportCountryName').val(country.Name);
+                console.log(country.name);
+					$(".btn-home-country").text(country.name);
+					$('input#departureCountryName').val(country.name);
+					$('input#passportCountryName').val(country.name);
 					$(".destination-link").attr('href',"Destination/Destination?passportCountryCode="+country.Alpha2Code);
 				} 
 			});
@@ -134,7 +137,7 @@ function setDepartureCountryValue(departureCountryCode)
 function checkCountryName(name,callback)
 {
 	$.ajax({ 
-				url: "/Timatic/CheckCountryName",
+				url: "/Home/CheckCountryName",
 				type: "POST",
 				dataType: "json", 
 				data: { countryName: name }, 

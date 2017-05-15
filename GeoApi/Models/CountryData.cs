@@ -26,13 +26,9 @@ namespace GeoApi.Models
 		public string Flag { get; set; }
 
 
-		[JsonIgnore]
 		public List<string> VOACountries { get; set; } = new List<string>();
-		[JsonIgnore]
 		public List<string> VFCountries { get; set; } = new List<string>();
-		[JsonIgnore]
 		public List<string> ETACountries { get; set; } = new List<string>();
-		[JsonIgnore]
 		public List<string> VReqCountries { get; set; } = new List<string>();
 
 	}

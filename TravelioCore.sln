@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NcdcLib", "NcdcLib\NcdcLib.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimaticApi", "TimaticApi\TimaticApi.csproj", "{6B1C9A97-093F-440D-8806-F7F89C789451}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelioApi", "TravelioApi\TravelioApi.csproj", "{9AC46359-B0E7-4222-9FAA-2554040DAAA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageManager", "CloudManager\StorageManager.csproj", "{C50BC3DE-0758-4C23-AFEE-1F6020090E82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,5 +35,13 @@ Global
 		{6B1C9A97-093F-440D-8806-F7F89C789451}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B1C9A97-093F-440D-8806-F7F89C789451}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B1C9A97-093F-440D-8806-F7F89C789451}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AC46359-B0E7-4222-9FAA-2554040DAAA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AC46359-B0E7-4222-9FAA-2554040DAAA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AC46359-B0E7-4222-9FAA-2554040DAAA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AC46359-B0E7-4222-9FAA-2554040DAAA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C50BC3DE-0758-4C23-AFEE-1F6020090E82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C50BC3DE-0758-4C23-AFEE-1F6020090E82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C50BC3DE-0758-4C23-AFEE-1F6020090E82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C50BC3DE-0758-4C23-AFEE-1F6020090E82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

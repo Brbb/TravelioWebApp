@@ -52,7 +52,15 @@
                         <li><a href="#">Contact</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a class="btn-profile"></a></li>
+                        <li class="dropdown">
+						<a href="#" class="btn-profile dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Visa Map</a></li>
+                                <li><a href="#">Best Places Map</a></li>
+                                <li><a href="#">My Travels</a></li>
+                            </ul>
+					</li>
+					
                         <li><a class="btn-signin" href="#loginModal">Sign In</a></li>
                     </ul>
             </div>
@@ -60,7 +68,7 @@
     <div class="container body-content">
         @RenderBody()
      </div>
-        <div class="container-fluid">
+        <div class="container-fluid features">
       <!-- Example row of columns -->
       <div class="row">
         <div class="col-lg-4">

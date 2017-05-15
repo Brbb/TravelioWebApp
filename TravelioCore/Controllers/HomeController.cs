@@ -9,6 +9,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using TravelioCore.Models;
 using Newtonsoft.Json;
+using TimaticApi;
 
 namespace TravelioCore.Controllers
 {
@@ -33,7 +34,7 @@ namespace TravelioCore.Controllers
         {
             using (var client = new HttpClient())
             {
-                var countriesString = await client.GetStringAsync(string.Format("{0}/geo/countries", Endpoint));
+                var countriesString = await client.GetStringAsync(string.Format("{0}/visa/map", Endpoint));
                 var countries = JsonConvert.DeserializeObject<List<CountryData>>(countriesString);
 
 				var memoryCacheOptions = new MemoryCacheEntryOptions()
@@ -64,23 +65,21 @@ namespace TravelioCore.Controllers
         }
 
         [HttpPut]
-        public async Task<JsonResult> UpdateDepartureCountryByCode(string code)
+        public JsonResult UpdateDepartureCountryByCode(string code)
         {
-            //         using(var client = new HttpClient())
-            //         {
-            //             var response = await client.GetAsync(geoCountriesUrl);
-            //         }
+            MemoryCache.TryGetValue("GeoCountryList", out List<CountryData> countries);
+            var newDepartureCountry = countries.FirstOrDefault(c => string.Equals(c.Alpha2Code, code, StringComparison.CurrentCultureIgnoreCase));
 
-            //var country = VisaDatabaseManager.Instance.GetCountryByCode(code);
-            return UpsertDepartureCountry(new CountryData() { Alpha2Code = "IT", Name = "Italy" });
+            return UpsertDepartureCountry(newDepartureCountry);
         }
 
         [HttpPut]
         public JsonResult UpdateDepartureCountryByName(string name)
-        {
-            //var country = VisaDatabaseManager.Instance.GetCountryByName(name);
-            return UpsertDepartureCountry(new CountryData() { Alpha2Code = "IT", Name = "Italy" });
-        }
+		{
+			MemoryCache.TryGetValue("GeoCountryList", out List<CountryData> countries);
+            var newDepartureCountry = countries.FirstOrDefault(c => string.Equals(c.Name, name, StringComparison.CurrentCultureIgnoreCase));
+            return UpsertDepartureCountry(newDepartureCountry);
+		}
 
         private JsonResult UpsertDepartureCountry(CountryData country)
         {
@@ -100,5 +99,46 @@ namespace TravelioCore.Controllers
             
             return Json(result.Take(5));
 		}
+
+        public async Task<ActionResult> SearchVisaByCountryName(string departureCountryName, string destinationCountryName)
+        {
+            MemoryCache.TryGetValue("GeoCountryList", out List<CountryData> countries);
+
+            var departureCountry = countries.FirstOrDefault(c => string.Equals(c.Name, departureCountryName, StringComparison.CurrentCultureIgnoreCase));
+            var destinationCountry = countries.FirstOrDefault(c => string.Equals(c.Name, destinationCountryName, StringComparison.CurrentCultureIgnoreCase));
+
+            return await GetTravelRequirements(departureCountry, destinationCountry);
+        }
+
+		private async Task<ActionResult> GetTravelRequirements(CountryData departureCountry, CountryData destinationCountry)
+		{
+			try
+			{
+				var timaticManager = new TimaticManager();
+				var travelRequirements = await timaticManager.GetTravelRequirements(departureCountry.Alpha2Code, destinationCountry.Alpha2Code);
+
+                var vrp = new TimaticResultParser();
+                var parsedResult = vrp.ParseTimaticResult(travelRequirements);
+				ViewBag.Summary = parsedResult.FirstOrDefault(p => p.SectionName == "Summary");
+				ViewBag.Passport = parsedResult.FirstOrDefault(p => p.SectionName == "Passport");
+				ViewBag.Visa = parsedResult.FirstOrDefault(p => p.SectionName == "Visa");
+				ViewBag.Health = parsedResult.FirstOrDefault(p => p.SectionName == "Health");
+				ViewBag.CountryDetails = destinationCountry;
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+                return NotFound();
+			}
+
+            return View("Visa", new VisaModel(departureCountry,destinationCountry));
+		}
+
+        [HttpPost]
+        public JsonResult CheckCountryName(string countryName)
+        {
+			MemoryCache.TryGetValue("GeoCountryList", out List<CountryData> countries);
+            return Json(countries.Any(c => string.Equals(c.Name,countryName)));
+        }
     }
 }

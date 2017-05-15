@@ -9,7 +9,7 @@ namespace TimaticApi
 		private static string timaticBaseUri = "https://www.timaticweb2.com/integration/external.php";
 		static HttpClient client;
 
-        private async Task<string> SendVisaRequirementsRequest(VisaRequestProfile visaRequestProfile)
+        private async Task<string> SendVisaRequirementsRequest(TimaticRequestProfile visaRequestProfile)
 		{
 			using (client = new HttpClient())
 			{
@@ -30,7 +30,7 @@ namespace TimaticApi
 
         public async Task<string> GetTravelRequirements(string departureCountryCode, string destinationCountryCode)
         {
-            var visaRequestProfile = new VisaRequestProfile()
+            var visaRequestProfile = new TimaticRequestProfile()
             {
                 Ref = "79663d7c3edb6f9b8e00e344018408c4",
                 DocumentType = "passport",

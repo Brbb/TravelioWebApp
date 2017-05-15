@@ -24,12 +24,21 @@ namespace NcdcLib.Api
             return await ApiManager.GetStringAsync(GetRequestString(pathToAppend, parameters));
         }
 
-		/// <summary>
-		/// Gets the first 25 cities async.
-		/// </summary>
-		/// <returns>The cities async.</returns>
-		/// <param name="parameters">Set the parameter limit=1000 to get the max number of results available and change the offset parameter to move to the next chunck of results.</param>
-		public async Task<string> GetCitiesAsync(List<KeyValuePair<string, string>> parameters = null)
+        public async Task<Location> GetCountry(string alpha2Code, string name = "")
+        {
+            var countries = await GetAllCountriesAsync();
+            var country = countries.FirstOrDefault(c => c.LocationId.Split(':').Last().Equals(alpha2Code) || 
+                                                   string.Equals(c.Name, name,StringComparison.CurrentCultureIgnoreCase));
+
+            return country;
+        }
+
+        /// <summary>
+        /// Gets the first 25 cities async.
+        /// </summary>
+        /// <returns>The cities async.</returns>
+        /// <param name="parameters">Set the parameter limit=1000 to get the max number of results available and change the offset parameter to move to the next chunck of results.</param>
+        public async Task<string> GetCitiesAsync(List<KeyValuePair<string, string>> parameters = null)
         {
             if (parameters == null)
             {

@@ -92,6 +92,7 @@
                 $("#btnSearchVisaSpinnerIcon").show();
                 console.log($("#searchInput").val());
                 travelio.checkCountryName($("#searchInput").val(),function(result) {
+	                    console.log(result);
                         if(result)
                         {
                             $("#searchVisaForm").submit(); 
@@ -229,7 +230,7 @@
 
                     <div class="tab-content div-tab-content">
                         <div role="tabpanel" class="tab-pane active" id="searchVisaTab">
-                        @using (Html.BeginForm("SearchVisaByCountryName", "Timatic", FormMethod.Post, new {@id = "searchVisaForm"}))
+                        @using (Html.BeginForm("SearchVisaByCountryName", "Home", FormMethod.Post, new {@id = "searchVisaForm"}))
                     {
                             <div id="countryAlertDiv" class="alert alert-danger alert-dismissible travelio-alert" role="alert">
                                 <button type="button" class="close" data-hide="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>

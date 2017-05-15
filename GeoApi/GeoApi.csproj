@@ -11,4 +11,15 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Data\WorldVisaMap.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Data\WorldVisaMap.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CloudManager\StorageManager.csproj" />
+  </ItemGroup>
 </Project>

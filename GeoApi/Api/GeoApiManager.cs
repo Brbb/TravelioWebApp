@@ -48,9 +48,21 @@ namespace GeoApi.Api
 			}
         }
 
+		public async Task<CountryData> GetCountryByCode(string countryCode)
+		{
+			using (var client = new HttpClient())
+			{
+				var fullUrl = string.Format("{0}/alpha/{1}", GeoUri, countryCode);
+				var response = await client.GetAsync(fullUrl);
+				var countryJson = await response.Content.ReadAsStringAsync();
+				var results = JsonConvert.DeserializeObject<IEnumerable<CountryData>>(countryJson);
+				return results.FirstOrDefault();
+			}
+		}
+
         public async Task<double> ConvertCurrency(string code1, string code2, double amount)
         {
-            throw new NotImplementedException();
+            return amount;
         }
     }
 }

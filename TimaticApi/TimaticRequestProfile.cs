@@ -2,7 +2,7 @@
 
 namespace TimaticApi
 {
-	public class VisaRequestProfile
+	public class TimaticRequestProfile
 	{
 
 		public string Ref { get; set; } // ref=7f2e16c71fd62c1a31e9ec6563504434

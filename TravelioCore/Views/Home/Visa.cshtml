@@ -1,0 +1,53 @@
+﻿@{
+    Layout = "../Shared/_Layout.cshtml";
+    ViewData["Title"] = "Visa";
+}
+
+@model TravelioCore.Models.VisaModel
+
+<style>
+.body-content{
+	background: transparent;
+	}
+
+.footer {
+	display : none;
+	}	
+
+.features{
+	display: none !important;
+	}
+	
+</style>
+
+        <div class="row form-inline">
+            <div class="form-group col-md-6 col-md-offset-4">  
+                <form asp-controller="Home" asp-action="SearchVisaByCountryName" method="post" class="form-horizontal" role="form">
+			        <input asp-for="DepartureCountry.Name" name="departureCountryName" class="form-control countryRes input-lg" />
+			        <input asp-for="DestinationCountry.Name" name="destinationCountryName" class="form-control countryRes input-lg" />
+			        <input type="submit" value="Search" class="btn btn-primary btn-lg" />
+                </form>
+            </div>
+        </div>
+
+        <div class="visa-content">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-pills" role="tablist">
+    <li role="presentation" class="active"><a href="#summary" aria-controls="summary" role="tab" data-toggle="tab">Summary</a></li>
+    <li role="presentation"><a href="#passport" aria-controls="passport" role="tab" data-toggle="tab">Passport</a></li>
+    <li role="presentation"><a href="#visa" aria-controls="visa" role="tab" data-toggle="tab">Visa</a></li>
+    <li role="presentation"><a href="#health" aria-controls="health" role="tab" data-toggle="tab">Health</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="summary">
+        @Html.Partial("Summary",@Model)
+    </div>
+    <div role="tabpanel" class="tab-pane" id="passport">@Html.Raw(@ViewBag.Passport.Content)</div>
+    <div role="tabpanel" class="tab-pane" id="visa">@Html.Raw(@ViewBag.Visa.Content)</div>
+    <div role="tabpanel" class="tab-pane" id="health">@Html.Raw(@ViewBag.Health.Content)</div>
+  </div>
+
+</div>  

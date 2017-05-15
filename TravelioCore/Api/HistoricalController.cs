@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using NcdcLib.Model;
 using NcdcLib.Api;
+using Microsoft.Extensions.Configuration;
 
 namespace TravelioCore.Api
 {
@@ -13,10 +14,15 @@ namespace TravelioCore.Api
     public class HistoricalController : Controller
     {
         private IMemoryCache _memCache;
+        private IConfiguration _configuration;
+        private NcdcApiManager _ncdcApiManager;
 
-        public HistoricalController(IMemoryCache memCache)
+        public HistoricalController(IMemoryCache memCache, IConfiguration configuration)
         {
+            _configuration = configuration;
             _memCache = memCache;
+            var ncdcToken = _configuration.GetValue<string>("Authentication:NcdcToken");
+            _ncdcApiManager = new NcdcApiManager(ncdcToken);
         }
 
         // GET: /<controller>/
@@ -29,7 +35,7 @@ namespace TravelioCore.Api
                 return cities;
             }
 
-            var locationApi = new LocationApi(new NcdcApiManager(@"KaUCzbIPBZoExhosTaNKbZszQiDusPkc"));
+            var locationApi = new LocationApi(_ncdcApiManager);
 
             var citiesTask = locationApi.GetAllCitiesAsync();
             citiesTask.Wait();
@@ -50,9 +56,9 @@ namespace TravelioCore.Api
 				return countries;
 			}
 
-			var locationApi = new LocationApi(new NcdcApiManager(@"KaUCzbIPBZoExhosTaNKbZszQiDusPkc"));
+			var locationApi = new LocationApi(_ncdcApiManager);
 
-			var countriesTask = locationApi.GetAllCitiesAsync();
+			var countriesTask = locationApi.GetAllCountriesAsync();
 			countriesTask.Wait();
 
 			var cacheEntryOptions = new MemoryCacheEntryOptions()
@@ -60,6 +66,25 @@ namespace TravelioCore.Api
 
 			_memCache.Set("CountriesHistorical", countriesTask.Result, cacheEntryOptions);
 			return countriesTask.Result;
+		}
+
+		[HttpGet]
+		[ActionName("countries/search")]
+		public Location SearchCountry([FromQuery] string code,[FromQuery]  string name = "" )
+		{
+			if (_memCache.TryGetValue("LocationInfo" + code, out Location info))
+			{
+                return info;
+			}
+
+			var locationApi = new LocationApi(_ncdcApiManager);
+            info = locationApi.GetCountry(code,name).Result;
+
+			var cacheEntryOptions = new MemoryCacheEntryOptions()
+				.SetAbsoluteExpiration(TimeSpan.FromDays(1));
+
+			_memCache.Set("LocationInfo" + code, info, cacheEntryOptions);
+            return info;
 		}
 
 		[HttpGet]
@@ -71,7 +96,7 @@ namespace TravelioCore.Api
 				return data;
 			}
 
-            var dataApi = new DataApi(new NcdcApiManager(@"KaUCzbIPBZoExhosTaNKbZszQiDusPkc"));
+            var dataApi = new DataApi(_ncdcApiManager);
 
             var dataTask = dataApi.GetDataAsync(new List<DataType>{DataType.TMAX, DataType.TMIN, DataType.TAVG }, DataSet.GSOM, locationId, DateTime.Now.Subtract(TimeSpan.FromDays(2000)), DateTime.Now);
 			dataTask.Wait();
@@ -92,7 +117,7 @@ namespace TravelioCore.Api
 				return data;
 			}
 
-			var dataApi = new DataApi(new NcdcApiManager(@"KaUCzbIPBZoExhosTaNKbZszQiDusPkc"));
+			var dataApi = new DataApi(_ncdcApiManager);
 
 			var dataTask = dataApi.GetDataAsync(new List<DataType> { DataType.PRCP }, DataSet.GSOM, locationId, DateTime.Now.Subtract(TimeSpan.FromDays(2000)), DateTime.Now);
 			dataTask.Wait();
@@ -106,24 +131,23 @@ namespace TravelioCore.Api
 
 		[HttpGet]
 		[ActionName("data/all/{locationId}")]
-		public IEnumerable<Data> GetAllDataForLocation(string locationId)
+		public async Task<IEnumerable<Data>> GetAllDataForLocation(string locationId)
 		{
 			if (_memCache.TryGetValue("AllData" + locationId, out IEnumerable<Data> data))
 			{
 				return data;
 			}
 
-			var dataApi = new DataApi(new NcdcApiManager(@"KaUCzbIPBZoExhosTaNKbZszQiDusPkc"));
+			var dataApi = new DataApi(_ncdcApiManager);
 
-            var dataTask = dataApi.GetDataAsync(new List<DataType> { DataType.PRCP, DataType.TMAX, DataType.TMIN, DataType.TAVG },
+            var dataTask = await dataApi.GetDataAsync(new List<DataType> { DataType.PRCP, DataType.TMAX, DataType.TMIN, DataType.TAVG },
                                                 DataSet.GSOM, locationId, DateTime.Now.Subtract(TimeSpan.FromDays(2000)), DateTime.Now);
-			dataTask.Wait();
-
+			
 			var cacheEntryOptions = new MemoryCacheEntryOptions()
 				.SetAbsoluteExpiration(TimeSpan.FromDays(1));
 
-			_memCache.Set("AllData" + locationId, dataTask.Result, cacheEntryOptions);
-			return dataTask.Result;
+			_memCache.Set("AllData" + locationId, dataTask, cacheEntryOptions);
+			return dataTask;
 		}
     }
 }
