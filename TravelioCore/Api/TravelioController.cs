@@ -32,7 +32,7 @@ namespace TravelioCore.Api
 
         [HttpGet]
         [ActionName("countries/code/{code}")]
-        public async Task<TravelioCountry> GetTravelioCountryByCode(string code)
+        public async Task<TravelioCountry> GetTravelioCountryByCode(string code,[FromQuery] int month)
         {
             var visaApi = new VisaController(_memCache, _configuration);
             var countryData = await visaApi.GetCountryMap(code);
@@ -42,12 +42,12 @@ namespace TravelioCore.Api
                 return travelioCountry;
             }
 
-            return await PopulateTravelioCountry(countryData);
+            return await PopulateTravelioCountry(month,countryData);
         }
 
         [HttpGet]
         [ActionName("countries/name/{name}")]
-        public async Task<TravelioCountry> GetTravelioCountryByName(string name)
+        public async Task<TravelioCountry> GetTravelioCountryByName(string name, [FromQuery] int month)
         {
             var visaApi = new VisaController(_memCache, _configuration);
             var countryData = await visaApi.GetCountryMapByName(name);
@@ -57,17 +57,17 @@ namespace TravelioCore.Api
                 return travelioCountry;
             }
 
-            return await PopulateTravelioCountry(countryData);
+            return await PopulateTravelioCountry(month,countryData);
 		}
 
-        private async Task<TravelioCountry> PopulateTravelioCountry(CountryData countryData)
+        private async Task<TravelioCountry> PopulateTravelioCountry(int month,CountryData countryData)
         {
             var historicalController = new HistoricalController(_memCache, _configuration);
             var locationInfo = historicalController.SearchCountry(countryData.Alpha2Code, countryData.Name);
 
             if (locationInfo != null)
             {
-                var data = await historicalController.GetAllDataForLocation(locationInfo.LocationId);
+                var data = await historicalController.GetQuickDataForLocation(month, locationInfo.LocationId);
                 var travelioCountry = new TravelioCountry(countryData, locationInfo, data);
 
                 var cacheEntryOptions = new MemoryCacheEntryOptions()

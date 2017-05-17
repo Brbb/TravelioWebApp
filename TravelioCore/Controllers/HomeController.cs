@@ -53,7 +53,7 @@ namespace TravelioCore.Controllers
             catch(Exception exception)
             {
                 Console.WriteLine("Home error:"+ exception.Message);
-                return View(exception.Message);
+                return View();
             }
         }
 

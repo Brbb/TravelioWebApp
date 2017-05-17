@@ -18,22 +18,19 @@
 
         <div>
 	@{
-	    foreach(var country in @Model.Take(2))
+	    foreach(var country in @Model.Take(5))
 	    {
 	        <p>@country.Name</p>
             <div id="@country.Alpha2Code" class="searchCode"></div>
 	        <script type="text/javascript">
 	        $.ajax({
                     type: 'POST',
-                    dataType: 'application/json; charset=utf-8',
                     url: '/Destination/InvokeComponentView',
                     data: {code: '@country.Alpha2Code'},
                     success:function(data){
-                    console.log('OK');
+                    console.log(data);
                 },
-                    error:function(err){
-                        console.log(err);
-                    }
+                    error: function(req, err){ console.log('my message' + err); }
                 });
 		    </script>
 	    }

@@ -1,4 +1,25 @@
-﻿.jumbotron-board {
+﻿.html {
+    position: relative;
+    min-height: 100%;
+}
+
+.body {
+    margin: 0 0 60px; /* bottom = footer height */
+}
+
+.footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #555;
+    color: white;
+    padding: 15px;
+    height: 60px;
+    display: none;
+}
+
+.jumbotron-board {
     color: white;
     height: 80vh;
     font-family: 'Raleway', sans-serif;
@@ -7,14 +28,14 @@
     padding-top: 10%;
 }
 
-    .jumbotron-board .header-text {
-        font-size: 42px;
-        margin-bottom: 0;
-    }
+.jumbotron-board .header-text {
+    font-size: 42px;
+    margin-bottom: 0;
+}
 
-    .jumbotron-board .subheader-text {
-        margin: 0;
-    }
+.jumbotron-board .subheader-text {
+    margin: 0;
+}
 
 .navbar-default {
     background-color: white;
@@ -76,10 +97,10 @@
 }
 
 .jumbotron .searchDestinationContainer {
-    font-size: 24px;
+    font-size: 20px;
     margin: 0px;
-    padding: 15px;
-    display: inline-flex;
+    padding-top: 10px;
+    display: inline-table;
     vertical-align: middle;
     height: 70px;
     width: 600px;
@@ -136,7 +157,7 @@
 }
 
 .body-content {
-    margin: 0px;
+    margin-top: 50px;
     width: 100%;
     background: url(../images/fishermen_LQ.jpg);
     no-repeat center fixed;
@@ -149,4 +170,10 @@
 
 h2 > .label {
     vertical-align: middle;
+}
+
+.main-navbar {
+    background-color: white;
+    padding: 5px 20px 5px 20px;
+    font-family: 'Raleway', sans-serif;
 }

@@ -161,5 +161,41 @@ namespace TravelioCore.Api
 			_memCache.Set("AllData" + locationId, dataTask, cacheEntryOptions);
 			return dataTask;
 		}
+
+        /// <summary>
+        /// Gets the quick data for location based on AVG temperature and PRCP.
+        /// </summary>
+        /// <returns>The quick data for location.</returns>
+        /// <param name="locationId">Location identifier.</param>
+		[HttpGet]
+        [ActionName("data/monthly/{locationId}")]
+        public async Task<IEnumerable<Data>> GetQuickDataForLocation([FromQuery] int month,string locationId)
+		{
+			if (_memCache.TryGetValue(month+"MonthlyData" + locationId, out IEnumerable<Data> data))
+			{
+				return data;
+			}
+
+			var dataApi = new DataApi(_ncdcApiManager);
+            var taskList = new List<Task<IEnumerable<Data>>>();
+
+            for (int i = 0; i <= 2;i++)
+            {
+                var endDateString = DateTime.Now.Year-i + "-" + month.ToString().PadLeft(2, '0') + "-" + DateTime.DaysInMonth(DateTime.Now.Year, month).ToString().PadLeft(2, '0');
+				var endDate = DateTime.Parse(endDateString);
+				var startDate = DateTime.Parse(DateTime.Now.Year-i + "-" + month.ToString().PadLeft(2, '0') + "-01");
+
+                taskList.Add(dataApi.GetDataAsync(new List<DataType> { DataType.PRCP, DataType.TAVG }, DataSet.GSOM, locationId, startDate, endDate));
+            }
+
+            var results = await Task.WhenAll(taskList);
+            var result = results.SelectMany(r => r).ToList();
+
+			var cacheEntryOptions = new MemoryCacheEntryOptions()
+				.SetAbsoluteExpiration(TimeSpan.FromDays(1));
+
+			_memCache.Set(month+"MonthlyData" + locationId, result, cacheEntryOptions);
+			return result;
+		}
     }
 }

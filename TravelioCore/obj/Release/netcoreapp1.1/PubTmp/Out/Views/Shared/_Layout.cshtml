@@ -28,26 +28,57 @@
     </environment>
 </head>
 <body>
-    <div class="container-fluid">
+		<div id="fb-root"></div>
+        <script>(function(d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) return;
+                    js = d.createElement(s); js.id = id;
+                    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=267333063678315";
+                    fjs.parentNode.insertBefore(js, fjs);
+
+                }(document, 'script', 'facebook-jssdk'));
+            
+        </script>
+
+        <div id="loginModal" class="modal fade">
+            <div class="modal-dialog" style="width:300px;">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-3">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" style="text-align:center;color:#616192" >Sign In</h4>
+                    </div>
+                    <div class="modal-body">
+                        
+                            <a id="fbLoginBtn" class="btn btn-block btn-social btn-facebook btn-login"><span class="fa fa-facebook"></span>Sign In with Facebook</a>
+                        
+                            <a class="btn btn-block btn-social btn-twitter  btn-login"><span class="fa fa-twitter"></span>Sign In with Twitter</a>
+
+                        <p style="text-align:center;color:#337ab7; margin:20px;"> or </p>
+                        <form>
+                            <div class="form-group">
+                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                            </div>
+                          <div class="form-group">
+                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                          </div>
+                            <button type="submit" class="btn btn-info" style="width:100%">Sign In</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="navbar navbar-fixed-top main-navbar">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle btn-menu" data-toggle="collapse" data-target="#myNavbar">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span> 
                 </button>
-                <a class="navbar-brand" href="#">Travelio</a>
+                <a class="navbar-brand" href="/Home">Travelio</a>
             </div>
 
             <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Services <span class="caret"></span></a>
-                          <ul class="dropdown-menu">
-                            <li><a class="visa-link" href="/Home">Travel requirements</a></li>
-                            <li><a class="destination-link" href="#">Best destination</a></li>
-                            <li><a href="#">Travel planner  <span style="font-size:10px;vertical-align:middle" class="label label-info">Pro</span></a></li>
-                          </ul>
-                        </li>
                         <li><a href="#">About</a></li>
                         <li><a href="#">Contact</a></li>
                     </ul>
@@ -90,7 +121,18 @@
       </div>
       <!-- Site footer -->
       <footer class="footer">
-        <p>© 2017 Travelio.</p>
+			<div class="row" style="text-align:center">
+				<div class="col-lg-8">
+					
+				</div>
+				<div class="col-lg-4">
+				    <i class="fa fa-facebook" aria-hidden="true"></i>
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                    <i class="fa fa-linkedin" aria-hidden="true"></i>
+                    <i class="fa fa-github" aria-hidden="true"></i>
+				<p>© 2017 Travelio.</p>
+				</div>
+			</div>
       </footer>
 
     @RenderSection("Scripts", required: false)
