@@ -1,0 +1,8 @@
+/Users/fdl/Projects/TravelioCore/NcdcLib/bin/Debug/netstandard1.6/NcdcLib.deps.json
+/Users/fdl/Projects/TravelioCore/NcdcLib/bin/Debug/netstandard1.6/NcdcLib.dll
+/Users/fdl/Projects/TravelioCore/NcdcLib/bin/Debug/netstandard1.6/NcdcLib.pdb
+/Users/fdl/Projects/TravelioCore/NcdcLib/obj/Debug/netstandard1.6/NcdcLib.csprojResolveAssemblyReference.cache
+/Users/fdl/Projects/TravelioCore/NcdcLib/obj/Debug/netstandard1.6/NcdcLib.csproj.CoreCompileInputs.cache
+/Users/fdl/Projects/TravelioCore/NcdcLib/obj/Debug/netstandard1.6/NcdcLib.AssemblyInfo.cs
+/Users/fdl/Projects/TravelioCore/NcdcLib/obj/Debug/netstandard1.6/NcdcLib.dll
+/Users/fdl/Projects/TravelioCore/NcdcLib/obj/Debug/netstandard1.6/NcdcLib.pdb

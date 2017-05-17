@@ -1,0 +1,85 @@
+@model TravelioCore.Models.VisaModel
+
+<style>
+    .info-label{
+                font-family: 'Raleway', sans-serif;
+                font-weight: 300;
+            }
+    .info-image{
+                font-family: 'Raleway', sans-serif;
+                font-weight: 300;
+                width: 120px;
+                height: 80px;
+                font-size: 36px;
+                vertical-align: middle;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+    .info-sub{
+                font-family: 'Raleway', sans-serif;
+                font-weight: 300;
+            }
+    .info-main{
+                font-family: 'Raleway', sans-serif;
+                font-weight: 300;
+            }
+    .flag {
+                width: 120px;
+                height: 80px;
+    }
+    .thumbnail{
+        border: transparent;
+        text-align: center;
+        margin: 30px;
+        
+    }
+</style>
+
+<div class="row">
+    <div class="col-xs-6 col-md-3">
+    <div class="thumbnail">
+            <div class="caption">
+                <h5 class="info-label">Country Info</h5>
+                <img class="flag" src="@Model.DestinationCountry.Flag"/>
+                <h3 class="info-main">@Model.DestinationCountry.Capital</h3>
+                <h4 class="info-sub">@Model.DestinationCountry.NativeName</h4>
+            </div>
+    </div>
+  </div>
+  <div class="col-xs-6 col-md-3">
+    <div class="thumbnail">
+        <div class="caption">
+                <h5 class="info-label">Currency</h5>
+                <div class="info-image">
+                    @Model.DestinationCountry.Currencies[0].Symbol
+                </div>
+                <h3 class="info-main">@Model.DestinationCountry.Currencies[0].Name</h3>
+                <h4 class="info-sub">1 @Model.DepartureCountry.Currencies[0].Code = @Model.DepartureCountry.Currencies[0].ConvertTo(@Model.DestinationCountry.Currencies[0]) @Model.DestinationCountry.Currencies[0].Code</h4>
+        </div>
+    </div>
+  </div>
+    <div class="col-xs-6 col-md-3">
+    <div class="thumbnail">
+            <div class="caption">
+                <h5 class="info-label">Documents</h5>
+                <div class="info-image">
+                    
+                </div>
+        </div>
+    </div>
+  </div>
+    <div class="col-xs-6 col-md-3">
+    <div class="thumbnail">
+      <div class="caption">
+                <h5 class="info-label">Health</h5>
+                <div class="info-image">
+                    <i class="glyphicon glyphicon-leaf"></i>
+                </div>
+                <h3 class="info-main">Spring</h3>
+                <h4 class="info-sub"></h4>
+        </div>
+    </div>
+  </div>
+</div>
+

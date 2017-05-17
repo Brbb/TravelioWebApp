@@ -1,0 +1,328 @@
+﻿@{
+    Layout = "../Shared/_Layout.cshtml";
+    ViewData["Title"] = "Travelio - Home";
+}
+
+@model TravelioCore.Models.HomeModel
+
+        <script>
+            $(function() {
+
+            $("#btnSearchVisaSpinnerIcon").hide();
+            $("#homeCountrySpinner").show();
+            $("#homeCountryIcon").hide();
+            
+            InitUI();
+
+            $("#searchInput").on('click', function() {
+                $('#searchInput').typed({
+                    strings: ["",""],
+                    backSpeed: -1000
+                });
+            });
+
+            $(".typebox").typed({
+                strings: ["Thailand", "Italy", "Philippines", "Japan", "Nepal", "Myanmar", "Namibia", "Indonesia"],
+                typeSpeed: 150,
+                callback: function() {
+                    $("span").siblings(".typed-cursor").css("animation", "none");
+                    $("span").siblings(".typed-cursor").css("opacity", "0");
+                }
+            });
+
+
+            $(".travelio-alert").hide();
+            $(".travelio-alert").width($(".searchVisaContainer").width());
+
+            travelio.getLocation(function(data){
+                travelio.setDepartureLocationCode(data.country_code);
+
+                $("#homeCountrySpinner").hide();
+                $("#homeCountryIcon").show();
+            });
+
+             $("[data-hide]").on("click", function(){
+                $(this).closest("." + $(this).attr("data-hide")).hide();
+            });
+
+            $('.searchDestinationBox')
+            // event handler
+                .keyup(resizeInput)
+                // resize on page load
+                .each(resizeInput);
+
+   
+            $('[data-toggle="tooltip"]').tooltip();   
+
+
+            $('.time-dropdown').on('click', 'li a', function(){
+                    $(".time-label").text($(this).text());
+                    $(".time-label").val($(this).text());
+                    $("#destinationTime").val($(this).text().replace("in ",""));
+                });
+
+            $('.temperature-dropdown').on('click', 'li a', function(){
+                    $(".temperature-label").text($(this).text());
+                    $(".temperature-label").val($(this).text());
+                    $("#destinationWeather").val($(this).text());
+                });
+
+            $('.area-dropdown').on('click', 'li a', function(){
+                    $(".area-label").text($(this).text());
+                    $(".area-label").val($(this).text());
+                    $("#destinationArea").val($(this).text());
+                });
+
+            $("#destinationTime").val($('.time-label').text().replace("in ",""));
+            $("#destinationWeather").val($('.temperature-label').text());
+            $("#destinationArea").val($('.area-label').text());
+
+            });
+
+            function searchDestinationFormSubmit()
+            {
+                $("#btnSearchDestinationIcon").hide();
+                $("#btnSearchDestinationSpinnerIcon").show();
+                searchDestinationForm.submit();
+            }
+
+            function checkBeforeSubmit()
+            {
+                $("#btnSearchVisaIcon").hide();
+                $("#btnSearchVisaSpinnerIcon").show();
+                console.log($("#searchInput").val());
+                travelio.checkCountryName($("#searchInput").val(),function(result) {
+	                    console.log(result);
+                        if(result)
+                        {
+                            $("#searchVisaForm").submit(); 
+                            $("#countryAlertDiv").hide();
+                        }
+                        else
+                        {   
+                            $("#countryAlertDiv").show();
+                            $("#btnSearchVisaIcon").show();
+                            $("#btnSearchVisaSpinnerIcon").hide();
+                        }
+                    });
+            };
+
+
+            function resizeInput() {
+                    $(this).attr('size', $(this).val().length);
+            }
+
+
+
+        </script>
+
+        <style>
+            .modal-header-2{
+                background:rgb(155,177,182); 
+                color:white;
+                font-size:  21px;
+                font-family: 'Raleway', sans-serif;
+                font-weight: 300;
+            }
+
+            .modal-header-3{
+                font-size:  21px;
+                font-family: 'Raleway', sans-serif;
+                font-weight: 300;
+                color: #337ab7;
+            }
+
+            .country-list{
+                overflow-y: scroll;
+                max-height: 400px;
+            }
+
+            .country-list-item {
+                font-size:  18px;
+                font-family: 'Raleway', sans-serif;
+                font-weight: 300;
+	            border: none;
+	            padding: 5px;
+            }
+
+            .btn-home-country{
+                background-color: transparent !important;
+                opacity: 1 !important;
+                border-color: rgba(255,255,255,0);
+                outline: none;
+                padding: 10px 10px 0px 5px;
+            }
+
+            .travelio-alert{
+                display: none;
+                margin: 0px;
+            }
+
+            .option-label{
+                color: rgb(45,108,162);
+                font-weight: 100;
+                margin-right: 5px;
+                margin-left: 5px;
+            }
+
+            .fa-location-arrow {
+                padding-top: 13px;
+            }
+        </style>
+
+        <div id="fb-root"></div>
+        <script>(function(d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) return;
+                    js = d.createElement(s); js.id = id;
+                    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=267333063678315";
+                    fjs.parentNode.insertBefore(js, fjs);
+
+                }(document, 'script', 'facebook-jssdk'));
+            
+        </script>
+
+        <div id="loginModal" class="modal fade">
+            <div class="modal-dialog" style="width:300px;">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-3">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" style="text-align:center;color:#616192" >Sign In</h4>
+                    </div>
+                    <div class="modal-body">
+                        
+                            <a id="fbLoginBtn" class="btn btn-block btn-social btn-facebook btn-login"><span class="fa fa-facebook"></span>Sign In with Facebook</a>
+                        
+                            <a class="btn btn-block btn-social btn-twitter  btn-login"><span class="fa fa-twitter"></span>Sign In with Twitter</a>
+
+                        <p style="text-align:center;color:#337ab7; margin:20px;"> or </p>
+                        <form>
+                            <div class="form-group">
+                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                            </div>
+                          <div class="form-group">
+                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                          </div>
+                            <button type="submit" class="btn btn-info" style="width:100%">Sign In</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+      <!-- Jumbotron -->
+      <div class="jumbotron jumbotron-board">
+            <div class="img"></div>
+                <p class="header-text">Explore the World the smart way!</p>
+                <h5 class="subheader-text">Find the best weather, the best destinations, visa requirements and paperworks. Or let us do it for you.</h5>
+
+                <div class="searchTabDiv">
+                    <ul class="nav nav-tabs searchUl">
+                        <li role="presentation" class="active"><a href="#searchVisaTab" data-toggle="tab">Search Visa</a></li>
+                        <li role="presentation"><a href="#searchDestination" data-toggle="tab">Search Destination</a></li>
+                        <li role="presentation" class="pull-right" style="display:flex" data-toggle="tooltip" data-placement="top" title="Click or Sign In to change country!">
+                            <i class="fa fa-location-arrow" aria-hidden="true" data-toggle="modal" id="homeCountryIcon"></i>
+                            <i class="fa-li fa fa-spinner fa-spin" style="margin-top:12px;" id="homeCountrySpinner"></i>
+                            <a href="#countriesModal" class="btn-home-country" data-toggle="modal" id="homeCountry" ></a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content div-tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="searchVisaTab">
+                        @using (Html.BeginForm("SearchVisaByCountryName", "Home", FormMethod.Post, new {@id = "searchVisaForm"}))
+                    {
+                            <div id="countryAlertDiv" class="alert alert-danger alert-dismissible travelio-alert" role="alert">
+                                <button type="button" class="close" data-hide="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <strong><b>Oops!</b></strong> Select your country among the listed countries!
+                            </div>
+                
+                        <div class="searchVisaContainer">
+                            <label style="font-weight:100">What do I need to go to </label><input type="text" id="searchInput" name="destinationCountryName" class="typebox searchVisaBox countryRes" />
+                            <p class="fa-stack fa-lg" id="btnVisaSearch" onclick="checkBeforeSubmit()" style="margin-left:auto; margin-top: -5px;" aria-hidden="true">
+                                <i class="fa fa-search fa-stack" id="btnSearchVisaIcon"></i>
+                                <i class="fa fa-spinner fa-spin fa-stack" id="btnSearchVisaSpinnerIcon" style="display:none"></i>
+                            </p>
+                        </div>
+                        <input type="hidden" class="btn-home-country" id="departureCountryName" name="departureCountryName">
+                    }
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="searchDestination">
+
+                        @using (Html.BeginForm("SearchBestPlaceToGo", "Destination", FormMethod.Post, new {@id = "searchDestinationForm"}))
+                        {
+                            
+                            <div class="searchDestinationContainer">
+                            <div class="dropdown" data-toggle="tooltip" data-placement="top" title="Choose the weather you like!">
+                                <label class="dropdown-toggle option-label temperature-label" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hot</label>
+                                  <ul class="dropdown-menu temperature-dropdown">
+                                    <li><a href="#">Hot</a></li>
+                                    <li><a href="#">Warm</a></li>
+                                    <li><a href="#">Cold</a></li>
+                                  </ul>
+                                </div>places
+                            <div class="dropdown" data-toggle="tooltip" data-placement="top" title="When do you want to go?">
+                                <label class="dropdown-toggle option-label time-label" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">now</label>
+                                  <ul class="dropdown-menu time-dropdown">
+                                    <li><a href="#">now</a></li>
+                                    <li><a href="#">in January</a></li>
+                                    <li><a href="#">in February</a></li>
+                                    <li><a href="#">in March</a></li>
+                                    <li><a href="#">in April</a></li>
+                                    <li><a href="#">in May</a></li>
+                                    <li><a href="#">in June</a></li>
+                                    <li><a href="#">in July</a></li>
+                                    <li><a href="#">in August</a></li>
+                                    <li><a href="#">in September</a></li>
+                                    <li><a href="#">in October</a></li>
+                                    <li><a href="#">in November</a></li>
+                                    <li><a href="#">in December</a></li>
+                                  </ul>
+                                </div> in
+                                <div class="dropdown" data-toggle="tooltip" data-placement="top" title="The World is so big!">
+                                <label class="dropdown-toggle option-label area-label" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">the World</label>
+                                  <ul class="dropdown-menu area-dropdown">
+                                    <li><a href="#">the World</a></li>
+                                    <li><a href="#">Africa</a></li>
+                                    <li><a href="#">America</a></li>
+                                    <li><a href="#">Middle East</a></li>
+                                    <li><a href="#">Europe</a></li>
+                                    <li><a href="#">Asia</a></li>
+                                    <li><a href="#">Oceania</a></li>
+                                  </ul>
+                                </div>
+                                <p class="fa-stack fa-lg" id="btnDestinationSearch" onclick="searchDestinationFormSubmit()" style="margin-left:auto; margin-top: -5px;" aria-hidden="true">
+                                    <i class="fa fa-search fa-stack" id="btnSearchDestinationIcon"></i>
+                                    <i class="fa fa-spinner fa-spin fa-stack" id="btnSearchDestinationSpinnerIcon" style="display:none"></i>
+                                </p>
+                            </div>
+                            <input type="hidden" class="btn-home-country" id="passportCountryName" name="passportCountryName">
+                            <input type="hidden" id="destinationWeather" name="destinationWeather">
+                            <input type="hidden" id="destinationTime"    name="destinationTime">
+                            <input type="hidden" id="destinationArea"    name="destinationArea">
+                        }
+                        </div>
+                    </div>
+                </div>
+
+      </div>
+
+        <div id="countriesModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-3">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Passport Issuing Country</h4>
+                    </div>
+                <div class="modal-body">
+
+                <ul class="list-group country-list">
+                    @foreach (var item in Model.Countries) {
+                            <button type="button" class="list-group-item country-list-item" onclick="setDepartureCountryValue('@item.Alpha2Code'); $('#countriesModal').modal('hide');
+">@item.Name</button>
+                            }
+                </ul>
+                </div>
+            </div>
+        </div>
+        </div>  

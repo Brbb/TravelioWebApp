@@ -1,0 +1,14 @@
+/Users/fdl/Projects/TravelioCore/TravelioApi/bin/Debug/netstandard1.6/TravelioApi.deps.json
+/Users/fdl/Projects/TravelioCore/TravelioApi/bin/Debug/netstandard1.6/TravelioApi.dll
+/Users/fdl/Projects/TravelioCore/TravelioApi/bin/Debug/netstandard1.6/TravelioApi.pdb
+/Users/fdl/Projects/TravelioCore/TravelioApi/bin/Debug/netstandard1.6/GeoApi.dll
+/Users/fdl/Projects/TravelioCore/TravelioApi/bin/Debug/netstandard1.6/NcdcLib.dll
+/Users/fdl/Projects/TravelioCore/TravelioApi/bin/Debug/netstandard1.6/StorageManager.dll
+/Users/fdl/Projects/TravelioCore/TravelioApi/bin/Debug/netstandard1.6/GeoApi.pdb
+/Users/fdl/Projects/TravelioCore/TravelioApi/bin/Debug/netstandard1.6/NcdcLib.pdb
+/Users/fdl/Projects/TravelioCore/TravelioApi/bin/Debug/netstandard1.6/StorageManager.pdb
+/Users/fdl/Projects/TravelioCore/TravelioApi/obj/Debug/netstandard1.6/TravelioApi.csprojResolveAssemblyReference.cache
+/Users/fdl/Projects/TravelioCore/TravelioApi/obj/Debug/netstandard1.6/TravelioApi.csproj.CoreCompileInputs.cache
+/Users/fdl/Projects/TravelioCore/TravelioApi/obj/Debug/netstandard1.6/TravelioApi.AssemblyInfo.cs
+/Users/fdl/Projects/TravelioCore/TravelioApi/obj/Debug/netstandard1.6/TravelioApi.dll
+/Users/fdl/Projects/TravelioCore/TravelioApi/obj/Debug/netstandard1.6/TravelioApi.pdb

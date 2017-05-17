@@ -1,0 +1,8 @@
+
+*.dll
+
+*.pdb
+
+*.targets
+
+*.xml

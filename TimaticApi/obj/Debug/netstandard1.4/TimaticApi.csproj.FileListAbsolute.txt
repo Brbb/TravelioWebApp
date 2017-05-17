@@ -1,0 +1,15 @@
+/Users/fdl/Projects/TravelioWebApp/TimaticApi/bin/Debug/netstandard1.4/TimaticApi.deps.json
+/Users/fdl/Projects/TravelioWebApp/TimaticApi/bin/Debug/netstandard1.4/TimaticApi.dll
+/Users/fdl/Projects/TravelioWebApp/TimaticApi/bin/Debug/netstandard1.4/TimaticApi.pdb
+/Users/fdl/Projects/TravelioWebApp/TimaticApi/obj/Debug/netstandard1.4/TimaticApi.csproj.CoreCompileInputs.cache
+/Users/fdl/Projects/TravelioWebApp/TimaticApi/obj/Debug/netstandard1.4/TimaticApi.AssemblyInfo.cs
+/Users/fdl/Projects/TravelioWebApp/TimaticApi/obj/Debug/netstandard1.4/TimaticApi.dll
+/Users/fdl/Projects/TravelioWebApp/TimaticApi/obj/Debug/netstandard1.4/TimaticApi.pdb
+/Users/fdl/Projects/TravelioCore/TimaticApi/bin/Debug/netstandard1.4/TimaticApi.deps.json
+/Users/fdl/Projects/TravelioCore/TimaticApi/bin/Debug/netstandard1.4/TimaticApi.dll
+/Users/fdl/Projects/TravelioCore/TimaticApi/bin/Debug/netstandard1.4/TimaticApi.pdb
+/Users/fdl/Projects/TravelioCore/TimaticApi/obj/Debug/netstandard1.4/TimaticApi.csprojResolveAssemblyReference.cache
+/Users/fdl/Projects/TravelioCore/TimaticApi/obj/Debug/netstandard1.4/TimaticApi.csproj.CoreCompileInputs.cache
+/Users/fdl/Projects/TravelioCore/TimaticApi/obj/Debug/netstandard1.4/TimaticApi.AssemblyInfo.cs
+/Users/fdl/Projects/TravelioCore/TimaticApi/obj/Debug/netstandard1.4/TimaticApi.dll
+/Users/fdl/Projects/TravelioCore/TimaticApi/obj/Debug/netstandard1.4/TimaticApi.pdb

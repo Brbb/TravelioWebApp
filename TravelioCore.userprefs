@@ -1,0 +1,34 @@
+﻿<Properties StartupConfiguration="{6D148954-D162-4C75-8226-849E878A3BFB}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="TravelioCore Status">
+    <Files>
+      <File FileName="TravelioCore/Controllers/DestinationController.cs" Line="71" Column="1" />
+      <File FileName="TravelioCore/Views/Destination/SearchBestPlaceToGo.cshtml" Line="30" Column="56" />
+      <File FileName="TravelioCore/Components/TravelioCountryViewComponent.cs" Line="44" Column="1" />
+      <File FileName="TravelioCore/Api/TravelioController.cs" Line="70" Column="76" />
+      <File FileName="TravelioCore/Controllers/HomeController.cs" Line="38" Column="61" />
+      <File FileName="TravelioCore/Api/HistoricalController.cs" Line="155" Column="54" />
+      <File FileName="TravelioCore/appsettings.json" Line="10" Column="25" />
+      <File FileName="NcdcLib/Api/DataApi.cs" Line="17" Column="46" />
+      <File FileName="TravelioCore Status" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/fdl/Projects/TravelioCore/TravelioCore/Api/ConfigurationController.cs" relfile="TravelioCore/Api/ConfigurationController.cs" line="28" column="1" />
+      <Breakpoint file="/Users/fdl/Projects/TravelioCore/TravelioCore/Api/ConfigurationController.cs" relfile="TravelioCore/Api/ConfigurationController.cs" line="20" column="34" />
+      <Breakpoint file="/Users/fdl/Projects/TravelioCore/TravelioCore/Api/HistoricalController.cs" relfile="TravelioCore/Api/HistoricalController.cs" line="85" column="1" />
+      <Breakpoint file="/Users/fdl/Projects/TravelioCore/TravelioCore/Components/TravelioCountryViewComponent.cs" relfile="TravelioCore/Components/TravelioCountryViewComponent.cs" line="41" column="1" />
+      <Breakpoint file="/Users/fdl/Projects/TravelioCore/TravelioCore/Components/TravelioCountryViewComponent.cs" relfile="TravelioCore/Components/TravelioCountryViewComponent.cs" line="44" column="1" />
+      <Breakpoint file="/Users/fdl/Projects/TravelioCore/TravelioCore/Components/TravelioCountryViewComponent.cs" relfile="TravelioCore/Components/TravelioCountryViewComponent.cs" line="32" column="76" />
+      <Breakpoint file="/Users/fdl/Projects/TravelioCore/TravelioCore/Components/TravelioCountryViewComponent.cs" relfile="TravelioCore/Components/TravelioCountryViewComponent.cs" line="33" column="1" />
+      <Breakpoint file="/Users/fdl/Projects/TravelioCore/TravelioCore/Api/TravelioController.cs" relfile="TravelioCore/Api/TravelioController.cs" line="68" column="1" />
+      <Breakpoint file="/Users/fdl/Projects/TravelioCore/TravelioCore/Api/TravelioController.cs" relfile="TravelioCore/Api/TravelioController.cs" line="66" column="1" />
+      <Breakpoint file="/Users/fdl/Projects/TravelioCore/TravelioCore/Api/TravelioController.cs" relfile="TravelioCore/Api/TravelioController.cs" line="70" column="1" />
+      <Breakpoint file="/Users/fdl/Projects/TravelioCore/TravelioCore/Api/TravelioController.cs" relfile="TravelioCore/Api/TravelioController.cs" line="71" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.TravelioCore PreferredExecutionTarget="MonoDevelop.Default" />
+  <MultiItemStartupConfigurations />
+</Properties>

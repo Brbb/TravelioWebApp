@@ -1,0 +1,8 @@
+/Users/fdl/Projects/TravelioCore/TimaticApi/bin/Debug/netstandard1.6/TimaticApi.deps.json
+/Users/fdl/Projects/TravelioCore/TimaticApi/bin/Debug/netstandard1.6/TimaticApi.dll
+/Users/fdl/Projects/TravelioCore/TimaticApi/bin/Debug/netstandard1.6/TimaticApi.pdb
+/Users/fdl/Projects/TravelioCore/TimaticApi/obj/Debug/netstandard1.6/TimaticApi.csprojResolveAssemblyReference.cache
+/Users/fdl/Projects/TravelioCore/TimaticApi/obj/Debug/netstandard1.6/TimaticApi.csproj.CoreCompileInputs.cache
+/Users/fdl/Projects/TravelioCore/TimaticApi/obj/Debug/netstandard1.6/TimaticApi.AssemblyInfo.cs
+/Users/fdl/Projects/TravelioCore/TimaticApi/obj/Debug/netstandard1.6/TimaticApi.dll
+/Users/fdl/Projects/TravelioCore/TimaticApi/obj/Debug/netstandard1.6/TimaticApi.pdb

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+
+    <environment names="Development,Staging,Production">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,400">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="~/lib/others/css/justified-nav.css" type="text/css">
+        <link rel="stylesheet" href="~/lib/others/css/bootstrap-social.css" type="text/css">
+        <link rel="stylesheet" href="~/lib/others/css/loader.css" type="text/css">
+        <link rel="stylesheet" href="~/lib/others/css/timatic.css" type="text/css">
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/lib/others/css/lastLoad.css" type="text/css">
+            
+    </environment>
+    <environment names="Development,Staging,Production">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/jquery/dist/jquery-ui.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/lib/others/js/datamaps.min.js"></script>
+        <script src="~/lib/others/js/travelio.js"></script>
+        <script src="~/lib/others/js/typed.min.js"></script>
+    </environment>
+</head>
+<body>
+    <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle btn-menu" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span> 
+                </button>
+                <a class="navbar-brand" href="#">Travelio</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Services <span class="caret"></span></a>
+                          <ul class="dropdown-menu">
+                            <li><a class="visa-link" href="/Home">Travel requirements</a></li>
+                            <li><a class="destination-link" href="#">Best destination</a></li>
+                            <li><a href="#">Travel planner  <span style="font-size:10px;vertical-align:middle" class="label label-info">Pro</span></a></li>
+                          </ul>
+                        </li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+						<a href="#" class="btn-profile dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Visa Map</a></li>
+                                <li><a href="#">Best Places Map</a></li>
+                                <li><a href="#">My Travels</a></li>
+                            </ul>
+					</li>
+					
+                        <li><a class="btn-signin" href="#loginModal">Sign In</a></li>
+                    </ul>
+            </div>
+        </div>
+    <div class="container body-content">
+        @RenderBody()
+     </div>
+        <div class="container-fluid features">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-lg-4">
+          <h2>Find the right visa</h2>
+          <p>Check the requirements, reduce the hassle and enjoy your stay.</p>
+          <p><a class="btn btn-primary" href="#" role="button">View details »</a></p>
+        </div>
+        <div class="col-lg-4">
+          <h2>Get the best weather</h2>
+          <p>Find the right destination, get the best from your free time. </p>
+          <p><a class="btn btn-primary" href="#" role="button">View details »</a></p>
+       </div>
+        <div class="col-lg-4">
+          <h2>Travel like an expert <span style="font-size:12px;" class="label label-info">Pro</span></h2>
+          <p>Try the advanced features, plan, set your destinations, receive notifications and alerts. </p>
+          <p><a class="btn btn-primary" href="#" role="button">View details »</a></p>
+        </div>
+      </div>
+      </div>
+      <!-- Site footer -->
+      <footer class="footer">
+        <p>© 2017 Travelio.</p>
+      </footer>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

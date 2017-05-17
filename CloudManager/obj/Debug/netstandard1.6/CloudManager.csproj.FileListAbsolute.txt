@@ -1,0 +1,8 @@
+/Users/fdl/Projects/TravelioCore/CloudManager/bin/Debug/netstandard1.6/CloudManager.deps.json
+/Users/fdl/Projects/TravelioCore/CloudManager/bin/Debug/netstandard1.6/CloudManager.dll
+/Users/fdl/Projects/TravelioCore/CloudManager/bin/Debug/netstandard1.6/CloudManager.pdb
+/Users/fdl/Projects/TravelioCore/CloudManager/obj/Debug/netstandard1.6/CloudManager.csprojResolveAssemblyReference.cache
+/Users/fdl/Projects/TravelioCore/CloudManager/obj/Debug/netstandard1.6/CloudManager.csproj.CoreCompileInputs.cache
+/Users/fdl/Projects/TravelioCore/CloudManager/obj/Debug/netstandard1.6/CloudManager.AssemblyInfo.cs
+/Users/fdl/Projects/TravelioCore/CloudManager/obj/Debug/netstandard1.6/CloudManager.dll
+/Users/fdl/Projects/TravelioCore/CloudManager/obj/Debug/netstandard1.6/CloudManager.pdb
