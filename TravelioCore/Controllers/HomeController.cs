@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using TravelioCore.Models;
 using Newtonsoft.Json;
 using TimaticApi;
+using System.Globalization;
 
 namespace TravelioCore.Controllers
 {
@@ -32,16 +33,27 @@ namespace TravelioCore.Controllers
 
         public async Task<IActionResult> Index()
         {
-            using (var client = new HttpClient())
+            try
             {
-                var countriesString = await client.GetStringAsync(string.Format("{0}/visa/map", Endpoint));
-                var countries = JsonConvert.DeserializeObject<List<CountryData>>(countriesString);
+                if (!MemoryCache.TryGetValue("GeoCountryList", out List<CountryData> countries))
+                {
+                    using (var client = new HttpClient())
+                    {
+                        var countriesString = await client.GetStringAsync(string.Format("{0}/visa/map", Endpoint));
+                        countries = JsonConvert.DeserializeObject<List<CountryData>>(countriesString);
 
-				var memoryCacheOptions = new MemoryCacheEntryOptions()
-				.SetAbsoluteExpiration(TimeSpan.FromDays(5));
-                MemoryCache.Set("GeoCountryList", countries, memoryCacheOptions);
+                        var memoryCacheOptions = new MemoryCacheEntryOptions()
+                        .SetAbsoluteExpiration(TimeSpan.FromDays(5));
+                        MemoryCache.Set("GeoCountryList", countries, memoryCacheOptions);
+                    }
+                }
 
                 return View(new HomeModel() { Countries = countries });
+            }
+            catch(Exception exception)
+            {
+                Console.WriteLine("Home error:"+ exception.Message);
+                return View(exception.Message);
             }
         }
 

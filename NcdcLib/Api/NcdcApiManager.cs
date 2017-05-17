@@ -20,11 +20,28 @@ namespace NcdcLib.Api
 
         public async Task<string> GetStringAsync(string requestString)
         {
-            using (var client = new HttpClient { Timeout = TimeSpan.FromSeconds(10) })
+            try
             {
-                client.DefaultRequestHeaders.Add("token", Token);
-                return await client.GetStringAsync(requestString);
+                using (var client = new HttpClient { Timeout = TimeSpan.FromMinutes(2) })
+                {
+                    client.DefaultRequestHeaders.Add("token", Token);
+                    return await client.GetStringAsync(requestString);
+                }
             }
+            catch(TaskCanceledException tce)
+            {
+                Console.WriteLine(tce.Message);
+            }
+            catch(OperationCanceledException oce)
+            {
+                Console.WriteLine(oce.Message);
+            }
+            catch(Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+
+            return string.Empty;
         }
     }
 }

@@ -1,0 +1,41 @@
+﻿@{
+    Layout = "../Shared/_Layout.cshtml";
+    ViewData["Title"] = "Best Destination";
+}
+
+@model List<GeoApi.Models.CountryData>
+
+<style>
+    .body-content{
+        background: transparent;
+        margin-top: 70px;
+    }
+
+    .features{
+        display: none !important;
+    }
+        </style>
+
+        <div>
+	@{
+	    foreach(var country in @Model.Take(2))
+	    {
+	        <p>@country.Name</p>
+            <div id="@country.Alpha2Code" class="searchCode"></div>
+	        <script type="text/javascript">
+	        $.ajax({
+                    type: 'POST',
+                    dataType: 'application/json; charset=utf-8',
+                    url: '/Destination/InvokeComponentView',
+                    data: {code: '@country.Alpha2Code'},
+                    success:function(data){
+                    console.log('OK');
+                },
+                    error:function(err){
+                        console.log(err);
+                    }
+                });
+		    </script>
+	    }
+	}
+        </div>

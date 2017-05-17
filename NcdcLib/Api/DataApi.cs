@@ -26,22 +26,28 @@ namespace NcdcLib.Api
             parameters.Add(new KeyValuePair<string, string>("enddate", endDate.ToString("yyyy-MM-dd")));
             parameters.Add(new KeyValuePair<string, string>("limit", "1000"));
 
-            var dataString = await ApiManager.GetStringAsync(GetRequestString(parameters));
-            var data = JsonConvert.DeserializeObject<NcdcResult<Data>>(dataString);
-
             var totalData = new List<Data>();
-            totalData.AddRange(data.Results);
-
-            while (data.Metadata.ResultSet.Count > data.Metadata.ResultSet.Limit + data.Metadata.ResultSet.Offset)
+            var dataString = await ApiManager.GetStringAsync(GetRequestString(parameters));
+            if (!String.IsNullOrEmpty(dataString))
             {
-                var victim = parameters.FirstOrDefault(p => string.Equals(p.Key,"Offset",StringComparison.CurrentCultureIgnoreCase));
-                parameters.Remove(victim);
+                var data = JsonConvert.DeserializeObject<NcdcResult<Data>>(dataString);
 
-				var threshold = data.Metadata.ResultSet.Limit + data.Metadata.ResultSet.Offset;
-				parameters.Add(new KeyValuePair<string, string>("offset", threshold.ToString()));
-                dataString = await ApiManager.GetStringAsync(GetRequestString(parameters));
-                data = JsonConvert.DeserializeObject<NcdcResult<Data>>(dataString);
                 totalData.AddRange(data.Results);
+
+                while (data.Metadata.ResultSet.Count > data.Metadata.ResultSet.Limit + data.Metadata.ResultSet.Offset)
+                {
+                    var victim = parameters.FirstOrDefault(p => string.Equals(p.Key, "Offset", StringComparison.CurrentCultureIgnoreCase));
+                    parameters.Remove(victim);
+
+                    var threshold = data.Metadata.ResultSet.Limit + data.Metadata.ResultSet.Offset;
+                    parameters.Add(new KeyValuePair<string, string>("offset", threshold.ToString()));
+                    dataString = await ApiManager.GetStringAsync(GetRequestString(parameters));
+                    if (!String.IsNullOrEmpty(dataString))
+                    {
+                        data = JsonConvert.DeserializeObject<NcdcResult<Data>>(dataString);
+                        totalData.AddRange(data.Results);
+                    }
+                }
             }
 
             return totalData;

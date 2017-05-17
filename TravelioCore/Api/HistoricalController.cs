@@ -16,12 +16,14 @@ namespace TravelioCore.Api
         private IMemoryCache _memCache;
         private IConfiguration _configuration;
         private NcdcApiManager _ncdcApiManager;
+        private DateTime _historicalStartDate;
 
         public HistoricalController(IMemoryCache memCache, IConfiguration configuration)
         {
             _configuration = configuration;
             _memCache = memCache;
             var ncdcToken = _configuration.GetValue<string>("Authentication:NcdcToken");
+            _historicalStartDate = _configuration.GetValue<DateTime>("Services:HistoricalStartDate");
             _ncdcApiManager = new NcdcApiManager(ncdcToken);
         }
 
@@ -77,6 +79,16 @@ namespace TravelioCore.Api
                 return info;
 			}
 
+            // Let's try to speed up if the list of countries is already here
+			if (_memCache.TryGetValue("CountriesHistorical", out IEnumerable<Location> countries))
+			{
+				var country = countries.FirstOrDefault(c => c.LocationId.Split(':').Last().Equals(code) ||
+												  string.Equals(c.Name, name, StringComparison.CurrentCultureIgnoreCase));
+
+                if (country != null)
+                    return country;
+			}
+
 			var locationApi = new LocationApi(_ncdcApiManager);
             info = locationApi.GetCountry(code,name).Result;
 
@@ -98,7 +110,7 @@ namespace TravelioCore.Api
 
             var dataApi = new DataApi(_ncdcApiManager);
 
-            var dataTask = dataApi.GetDataAsync(new List<DataType>{DataType.TMAX, DataType.TMIN, DataType.TAVG }, DataSet.GSOM, locationId, DateTime.Now.Subtract(TimeSpan.FromDays(2000)), DateTime.Now);
+            var dataTask = dataApi.GetDataAsync(new List<DataType>{DataType.TMAX, DataType.TMIN, DataType.TAVG }, DataSet.GSOM, locationId, _historicalStartDate, DateTime.Now);
 			dataTask.Wait();
 
 			var cacheEntryOptions = new MemoryCacheEntryOptions()
@@ -119,7 +131,7 @@ namespace TravelioCore.Api
 
 			var dataApi = new DataApi(_ncdcApiManager);
 
-			var dataTask = dataApi.GetDataAsync(new List<DataType> { DataType.PRCP }, DataSet.GSOM, locationId, DateTime.Now.Subtract(TimeSpan.FromDays(2000)), DateTime.Now);
+			var dataTask = dataApi.GetDataAsync(new List<DataType> { DataType.PRCP }, DataSet.GSOM, locationId, _historicalStartDate, DateTime.Now);
 			dataTask.Wait();
 
 			var cacheEntryOptions = new MemoryCacheEntryOptions()
@@ -141,7 +153,7 @@ namespace TravelioCore.Api
 			var dataApi = new DataApi(_ncdcApiManager);
 
             var dataTask = await dataApi.GetDataAsync(new List<DataType> { DataType.PRCP, DataType.TMAX, DataType.TMIN, DataType.TAVG },
-                                                DataSet.GSOM, locationId, DateTime.Now.Subtract(TimeSpan.FromDays(2000)), DateTime.Now);
+                                                DataSet.GSOM, locationId, _historicalStartDate, DateTime.Now);
 			
 			var cacheEntryOptions = new MemoryCacheEntryOptions()
 				.SetAbsoluteExpiration(TimeSpan.FromDays(1));

@@ -60,20 +60,25 @@ namespace TravelioCore.Api
             return await PopulateTravelioCountry(countryData);
 		}
 
-		private async Task<TravelioCountry> PopulateTravelioCountry(CountryData countryData)
-		{
-			var historicalController = new HistoricalController(_memCache, _configuration);
-			var locationInfo = historicalController.SearchCountry(countryData.Alpha2Code, countryData.Name);
-			var data = await historicalController.GetAllDataForLocation(locationInfo.LocationId);
+        private async Task<TravelioCountry> PopulateTravelioCountry(CountryData countryData)
+        {
+            var historicalController = new HistoricalController(_memCache, _configuration);
+            var locationInfo = historicalController.SearchCountry(countryData.Alpha2Code, countryData.Name);
 
-			var travelioCountry = new TravelioCountry(countryData, locationInfo, data);
+            if (locationInfo != null)
+            {
+                var data = await historicalController.GetAllDataForLocation(locationInfo.LocationId);
+                var travelioCountry = new TravelioCountry(countryData, locationInfo, data);
 
-			var cacheEntryOptions = new MemoryCacheEntryOptions()
-				.SetAbsoluteExpiration(TimeSpan.FromDays(1));
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromDays(1));
 
-            _memCache.Set(countryData.Alpha2Code+"TravelioInfo", travelioCountry, cacheEntryOptions);
+                _memCache.Set(countryData.Alpha2Code + "TravelioInfo", travelioCountry, cacheEntryOptions);
 
-            return travelioCountry;
-		}
+                return travelioCountry;
+            }
+
+            return null;
+        }
     }
 }
