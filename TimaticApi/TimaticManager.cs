@@ -6,6 +6,14 @@ namespace TimaticApi
 {
     public class TimaticManager
     {
+        private string _token;
+
+        public TimaticManager(string token)
+        {
+            _token = token;
+        }
+
+
 		private static string timaticBaseUri = "https://www.timaticweb2.com/integration/external.php";
 		static HttpClient client;
 
@@ -32,7 +40,7 @@ namespace TimaticApi
         {
             var visaRequestProfile = new TimaticRequestProfile()
             {
-                Ref = "79663d7c3edb6f9b8e00e344018408c4",
+                Ref = _token,
                 DocumentType = "passport",
                 DestinationCountryCode = destinationCountryCode,
                 NationalityCode = departureCountryCode

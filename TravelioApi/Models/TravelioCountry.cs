@@ -2,6 +2,7 @@
 using GeoApi.Models;
 using NcdcLib.Model;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TravelioApi.Models
 {
@@ -10,15 +11,24 @@ namespace TravelioApi.Models
     /// </summary>
     public class TravelioCountry
     {
-        public TravelioCountry(CountryData geoData, Location locationInfo, IEnumerable<Data> historicalData)
+        public TravelioCountry(CountryData geoData, Location locationInfo, IEnumerable<AggregateData> aggregateData)
         {
             GeoData = geoData;
             LocationInfo = locationInfo;
-            HistoricalData = historicalData;
+
+            AggregateData.AddRange(aggregateData);
+
         }
 
         public CountryData GeoData { get; set; }
         public Location LocationInfo { get; set; }
-        public IEnumerable<Data> HistoricalData { get; set; }
+        public List<AggregateData> AggregateData { get; private set; } = new List<AggregateData>();
+    }
+
+    public class AggregateData
+    {
+        public string Label { get; set; }
+        //public DateTime Date { get; set; }
+        public double Value { get; set; }
     }
 }

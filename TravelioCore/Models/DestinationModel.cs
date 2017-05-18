@@ -6,5 +6,6 @@
         public string Area { get; set; }
         public string VisaType { get; set; }
         public string Month { get; set; }
+        public string DepartureCountryName { get; set; }
     }
 }

@@ -194,11 +194,6 @@
                         <div role="tabpanel" class="tab-pane active" id="searchVisaTab">
                         @using (Html.BeginForm("SearchVisaByCountryName", "Home", FormMethod.Post, new {@id = "searchVisaForm"}))
                     {
-                            <div id="countryAlertDiv" class="alert alert-danger alert-dismissible travelio-alert" role="alert">
-                                <button type="button" class="close" data-hide="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <strong><b>Oops!</b></strong> Select your country among the listed countries!
-                            </div>
-                
                         <div class="searchVisaContainer">
                             <label style="font-weight:100">What do I need to go to </label><input type="text" id="searchInput" name="destinationCountryName" class="typebox searchVisaBox countryRes" />
                             <p class="fa-stack fa-lg" id="btnVisaSearch" onclick="checkBeforeSubmit()" style="margin-left:auto; margin-top: -5px;" aria-hidden="true">
@@ -206,6 +201,10 @@
                                 <i class="fa fa-spinner fa-spin fa-stack" id="btnSearchVisaSpinnerIcon" style="display:none"></i>
                             </p>
                         </div>
+				        <div id="countryAlertDiv" class="alert alert-danger alert-dismissible travelio-alert" role="alert">
+                                <button type="button" class="close" data-hide="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <strong><b>Oops!</b></strong> Select your country among the listed countries!
+                            </div>
                         <input type="hidden" class="btn-home-country" id="departureCountryName" name="departureCountryName">
                     }
                         </div>
@@ -221,18 +220,18 @@
 					        </select>
 						<select class="option-label" asp-for="BestDestination.Month" data-toggle="tooltip" data-placement="top" title="When do you want to go?">
                                     <option value="now" selected="selected">now</option>
-                                    <option value="Jan">in January</option>
-                                    <option value="Feb">in February</option>
-                                    <option value="Mar">in March</option>
-                                    <option value="Apr">in April</option>
-                                    <option value="May">in May</option>
-                                    <option value="Jun">in June</option>
-                                    <option value="Jul">in July</option>
-                                    <option value="Aug">in August</option>
-                                    <option value="Sep">in September</option>
-                                    <option value="Oct">in October</option>
-                                    <option value="Nov">in November</option>
-                                    <option value="Dec">in December</option>
+                                    <option value="01">in January</option>
+                                    <option value="02">in February</option>
+                                    <option value="03">in March</option>
+                                    <option value="04">in April</option>
+                                    <option value="05">in May</option>
+                                    <option value="06">in June</option>
+                                    <option value="07">in July</option>
+                                    <option value="08">in August</option>
+                                    <option value="09">in September</option>
+                                    <option value="10">in October</option>
+                                    <option value="11">in November</option>
+                                    <option value="12">in December</option>
                             </select>
 						<select class="option-label" asp-for="BestDestination.Area" data-toggle="tooltip" data-placement="top" title="The World is so big!">
                                     <option value="World" selected="selected">in the World</option>
@@ -247,6 +246,7 @@
                                     <option value="VF">, Visa Free</option>
                                     <option value="NA">, any Visa</option>
                                   </select>
+						<input asp-for="BestDestination.DepartureCountryName" class="btn-home-country" type="hidden" />                  
                                 <p class="fa-stack fa-lg" id="btnDestinationSearch" onclick="searchDestinationFormSubmit()" style="margin-left:auto;" aria-hidden="true">
                                     <i class="fa fa-search fa-stack" id="btnSearchDestinationIcon"></i>
                                     <i class="fa fa-spinner fa-spin fa-stack" id="btnSearchDestinationSpinnerIcon" style="display:none"></i>

@@ -23,17 +23,19 @@ namespace TravelioCore.Components
             _endpoint = configuration.GetValue<string>("Services:Endpoint");
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(CountryData country)
+        public async Task<IViewComponentResult> InvokeAsync(TravelioViewComponentDto dto)
         {
             using (var client = new HttpClient() { Timeout = TimeSpan.FromMinutes(2) })
             {
                 try
                 {
-                    var travelioCountryString = await client.GetStringAsync(string.Format("{0}/travelio/countries/code/{1}", _endpoint, country.Alpha2Code));
+                    var travelioCountryString = await client.GetStringAsync(string.Format("{0}/travelio/countries/code/{1}?month={2}", _endpoint, dto.Country.Alpha2Code,dto.Month));
                     if (!String.IsNullOrEmpty(travelioCountryString))
                     {
                         var travelioCountry = JsonConvert.DeserializeObject<TravelioCountry>(travelioCountryString);
-                        return View(travelioCountry);
+
+                        if(travelioCountry!= null)
+                            return View(travelioCountry);
                     }
                 }
                 catch(Exception exception)
@@ -44,5 +46,13 @@ namespace TravelioCore.Components
                 return View();
             }
         }
+    }
+
+
+    public class TravelioViewComponentDto
+    {
+        public int Month { get; set; }
+        public CountryData Country { get; set; }
+        public CountryData DepartureCountry { get; set; }
     }
 }

@@ -109,7 +109,9 @@ function setDepartureCountryValueByName(departureCountryName)
 				data: { name: departureCountryName }, 
 				success: function (country) { 
                 console.log(country.name);
+                    travelio.user.country = country.name;
 					$(".btn-home-country").text(country.name);
+                    $(".btn-home-country").val(country.name);
 					$('input#departureCountryName').val(country.name);
 					$('input#passportCountryName').val(country.name);
 					$(".destination-link").attr('href',"Destination/Destination?passportCountryCode="+country.Alpha2Code);
@@ -126,7 +128,9 @@ function setDepartureCountryValue(departureCountryCode)
 				data: { code: departureCountryCode }, 
 				success: function (country) { 
                 console.log(country.name);
+                    travelio.user.country = country.name;
 					$(".btn-home-country").text(country.name);
+                    $(".btn-home-country").val(country.name);
 					$('input#departureCountryName').val(country.name);
 					$('input#passportCountryName').val(country.name);
 					$(".destination-link").attr('href',"Destination/Destination?passportCountryCode="+country.Alpha2Code);

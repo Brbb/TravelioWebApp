@@ -11,40 +11,67 @@ using TravelioCore.Models;
 using Newtonsoft.Json;
 using TimaticApi;
 using System.Globalization;
+using NcdcLib.Model;
 
 namespace TravelioCore.Controllers
 {
     public class HomeController : Controller
     {
-        private IConfiguration Configuration { get; set; }
-        private IMemoryCache MemoryCache { get; set; }
-        public string Endpoint { get; private set; }
+        private IConfiguration _configuration { get; set; }
+        private IMemoryCache _memoryCache { get; set; }
+        private string _endpoint { get; set; }
+        private string _timaticToken;
 
         public HomeController(IConfiguration configuration, IMemoryCache memoryCache)
         {
-            MemoryCache = memoryCache;
-            Configuration = configuration;
-            Endpoint = Configuration.GetValue<string>("Services:Endpoint");
+            _memoryCache = memoryCache;
+            _configuration = configuration;
+            _endpoint = _configuration.GetValue<string>("Services:Endpoint");
+            _timaticToken = _configuration.GetValue<string>("Authentication:TimaticToken");
+
             var memoryCacheOptions = new MemoryCacheEntryOptions()
                 .SetAbsoluteExpiration(TimeSpan.FromDays(5));
 
-            MemoryCache.Set("ApiEndpoint", Endpoint, memoryCacheOptions);
+            _memoryCache.Set("ApiEndpoint", _endpoint, memoryCacheOptions);
         }
 
         public async Task<IActionResult> Index()
         {
             try
             {
-                if (!MemoryCache.TryGetValue("GeoCountryList", out List<CountryData> countries))
+				if (!_memoryCache.TryGetValue("HistoricalCountryList", out List<Location> historicalCountryList))
+				{
+					using (var client = new HttpClient())
+					{
+						var historicalCountryListString = await client.GetStringAsync(string.Format("{0}/historical/countries", _endpoint));
+						historicalCountryList = JsonConvert.DeserializeObject<List<Location>>(historicalCountryListString);
+
+						var memoryCacheOptions = new MemoryCacheEntryOptions()
+						.SetAbsoluteExpiration(TimeSpan.FromDays(5));
+						_memoryCache.Set("HistoricalCountryList", historicalCountryList, memoryCacheOptions);
+					}
+				}
+
+                if (!_memoryCache.TryGetValue("GeoCountryList", out List<CountryData> countries))
                 {
                     using (var client = new HttpClient())
                     {
-                        var countriesString = await client.GetStringAsync(string.Format("{0}/visa/map", Endpoint));
+                        var countriesString = await client.GetStringAsync(string.Format("{0}/visa/map", _endpoint));
                         countries = JsonConvert.DeserializeObject<List<CountryData>>(countriesString);
 
-                        var memoryCacheOptions = new MemoryCacheEntryOptions()
-                        .SetAbsoluteExpiration(TimeSpan.FromDays(5));
-                        MemoryCache.Set("GeoCountryList", countries, memoryCacheOptions);
+						var memoryCacheOptions = new MemoryCacheEntryOptions()
+						.SetAbsoluteExpiration(TimeSpan.FromDays(5));
+
+                        if (historicalCountryList != null)
+                        {
+                            var joinedCountries = countries.Where(c => historicalCountryList.Any(h => h.LocationId.Split(':').Last().Equals(c.Alpha2Code) ||
+                                                                           string.Equals(c.Name, h.Name, StringComparison.CurrentCultureIgnoreCase)));
+                            _memoryCache.Set("GeoCountryList", joinedCountries.ToList(), memoryCacheOptions);
+                        }
+                        else
+                        {
+                            _memoryCache.Set("GeoCountryList", countries, memoryCacheOptions);
+                        }
                     }
                 }
 
@@ -79,7 +106,7 @@ namespace TravelioCore.Controllers
         [HttpPut]
         public JsonResult UpdateDepartureCountryByCode(string code)
         {
-            MemoryCache.TryGetValue("GeoCountryList", out List<CountryData> countries);
+            _memoryCache.TryGetValue("GeoCountryList", out List<CountryData> countries);
             var newDepartureCountry = countries.FirstOrDefault(c => string.Equals(c.Alpha2Code, code, StringComparison.CurrentCultureIgnoreCase));
 
             return UpsertDepartureCountry(newDepartureCountry);
@@ -88,7 +115,7 @@ namespace TravelioCore.Controllers
         [HttpPut]
         public JsonResult UpdateDepartureCountryByName(string name)
 		{
-			MemoryCache.TryGetValue("GeoCountryList", out List<CountryData> countries);
+			_memoryCache.TryGetValue("GeoCountryList", out List<CountryData> countries);
             var newDepartureCountry = countries.FirstOrDefault(c => string.Equals(c.Name, name, StringComparison.CurrentCultureIgnoreCase));
             return UpsertDepartureCountry(newDepartureCountry);
 		}
@@ -102,7 +129,7 @@ namespace TravelioCore.Controllers
 		[HttpPost]
         public JsonResult GetFilteredCountries(string prefix)
 		{
-            MemoryCache.TryGetValue("GeoCountryList",out List<CountryData> countries);
+            _memoryCache.TryGetValue("GeoCountryList",out List<CountryData> countries);
 
             var result =
                 from c in countries
@@ -114,7 +141,7 @@ namespace TravelioCore.Controllers
 
         public async Task<ActionResult> SearchVisaByCountryName(string departureCountryName, string destinationCountryName)
         {
-            MemoryCache.TryGetValue("GeoCountryList", out List<CountryData> countries);
+            _memoryCache.TryGetValue("GeoCountryList", out List<CountryData> countries);
 
             var departureCountry = countries.FirstOrDefault(c => string.Equals(c.Name, departureCountryName, StringComparison.CurrentCultureIgnoreCase));
             var destinationCountry = countries.FirstOrDefault(c => string.Equals(c.Name, destinationCountryName, StringComparison.CurrentCultureIgnoreCase));
@@ -126,7 +153,7 @@ namespace TravelioCore.Controllers
 		{
 			try
 			{
-				var timaticManager = new TimaticManager();
+                var timaticManager = new TimaticManager(_timaticToken);
 				var travelRequirements = await timaticManager.GetTravelRequirements(departureCountry.Alpha2Code, destinationCountry.Alpha2Code);
 
                 var vrp = new TimaticResultParser();
@@ -149,7 +176,7 @@ namespace TravelioCore.Controllers
         [HttpPost]
         public JsonResult CheckCountryName(string countryName)
         {
-			MemoryCache.TryGetValue("GeoCountryList", out List<CountryData> countries);
+			_memoryCache.TryGetValue("GeoCountryList", out List<CountryData> countries);
             return Json(countries.Any(c => string.Equals(c.Name,countryName)));
         }
     }

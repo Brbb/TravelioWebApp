@@ -8,12 +8,13 @@ using GeoApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
+using NcdcLib.Model;
 using Newtonsoft.Json;
 using TravelioApi.Models;
 using TravelioCore.Api;
+using TravelioCore.Components;
 using TravelioCore.Models;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace TravelioCore.Controllers
 {
@@ -44,6 +45,7 @@ namespace TravelioCore.Controllers
         public async Task<IActionResult> SearchBestPlaceToGo(DestinationModel bestDestination)
         {
             var shortList = new List<CountryData>();
+            CountryData departureCountry = null;
             try
             {
                 switch (bestDestination.Weather)
@@ -67,24 +69,43 @@ namespace TravelioCore.Controllers
                         MemoryCache.Set("GeoCountryList", countries, memoryCacheOptions);
                     }
                 }
+
                 // first reduction
-                shortList = countries.Where(c => c.Region.Equals("World") ||
-                                            string.Equals(c.Region, bestDestination.Area, StringComparison.CurrentCultureIgnoreCase))
-                                     .ToList();
+                departureCountry = countries.FirstOrDefault(c => string.Equals(c.Name, bestDestination.DepartureCountryName, StringComparison.CurrentCultureIgnoreCase));
+
+                //visa free only, planning to do it for any kind of visa, but it doesn't make sense so far
+                if (bestDestination.VisaType == "VF")
+                {
+					shortList = countries.Where(c => departureCountry.VFCountries.Contains(c.Alpha2Code))
+                                         .Where(c => c.Region.Equals("World") ||
+												string.Equals(c.Region, bestDestination.Area, StringComparison.CurrentCultureIgnoreCase))
+										 .ToList();
+                }
+                else
+                {
+                    shortList = countries.Where(c => c.Region.Equals("World") ||
+                                                string.Equals(c.Region, bestDestination.Area, StringComparison.CurrentCultureIgnoreCase))
+                                         .ToList();
+
+					shortList.Remove(departureCountry);
+                }
             }
             catch (Exception exception)
             {
                 Console.WriteLine("Destination exception:" + exception.Message);
             }
 
-            return View(shortList);
+
+            ViewBag.Month = bestDestination.Month == "now" ? ""+DateTime.Now.Month : bestDestination.Month;
+            return View(new BestDestinationDto(shortList, departureCountry));
         }
 
-        public IActionResult InvokeComponentView(string code)
+        public IActionResult InvokeComponentView(string code,int month, string departureCountryCode)
         {
             MemoryCache.TryGetValue("GeoCountryList", out List<CountryData> countries);
             var country = countries.FirstOrDefault(c => string.Equals(c.Alpha2Code,code));
-            return ViewComponent("TravelioCountry",country);
+            var depCountry = countries.FirstOrDefault(c => string.Equals(c.Alpha2Code, departureCountryCode));
+            return ViewComponent("TravelioCountry", new TravelioViewComponentDto { Month = month, Country = country, DepartureCountry = depCountry });
         }
 
 		public string ToTitleCase(TextInfo textInfo, string str)

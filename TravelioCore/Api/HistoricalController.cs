@@ -51,9 +51,9 @@ namespace TravelioCore.Api
 
 		[HttpGet]
 		[ActionName("countries")]
-		public IEnumerable<Location> GetCountriesHistorical()
+		public IEnumerable<Location> GetHistoricalCountryList()
 		{
-			if (_memCache.TryGetValue("CountriesHistorical", out IEnumerable<Location> countries))
+			if (_memCache.TryGetValue("HistoricalCountryList", out IEnumerable<Location> countries))
 			{
 				return countries;
 			}
@@ -66,13 +66,19 @@ namespace TravelioCore.Api
 			var cacheEntryOptions = new MemoryCacheEntryOptions()
 				.SetAbsoluteExpiration(TimeSpan.FromDays(1));
 
-			_memCache.Set("CountriesHistorical", countriesTask.Result, cacheEntryOptions);
+			_memCache.Set("HistoricalCountryList", countriesTask.Result, cacheEntryOptions);
 			return countriesTask.Result;
 		}
 
+        /// <summary>
+        /// Searchs the historical definition of the country in the historical countries list provided by NCDC.
+        /// </summary>
+        /// <returns>The country as a Location object.</returns>
+        /// <param name="code">The country code as provided by the Geo Api.</param>
+        /// <param name="name">The country name to improve the matches of those countries with a NCDC code different by the Geo Code.</param>
 		[HttpGet]
-		[ActionName("countries/search")]
-		public Location SearchCountry([FromQuery] string code,[FromQuery]  string name = "" )
+        [ActionName("countries/search/{code}")]
+		public Location SearchCountry(string code,[FromQuery]  string name = "" )
 		{
 			if (_memCache.TryGetValue("LocationInfo" + code, out Location info))
 			{
@@ -80,14 +86,14 @@ namespace TravelioCore.Api
 			}
 
             // Let's try to speed up if the list of countries is already here
-			if (_memCache.TryGetValue("CountriesHistorical", out IEnumerable<Location> countries))
-			{
-				var country = countries.FirstOrDefault(c => c.LocationId.Split(':').Last().Equals(code) ||
-												  string.Equals(c.Name, name, StringComparison.CurrentCultureIgnoreCase));
+            if (_memCache.TryGetValue("HistoricalCountryList", out IEnumerable<Location> countries))
+            {
+                var country = countries.FirstOrDefault(c => c.LocationId.Split(':').Last().Equals(code) ||
+                                                  string.Equals(c.Name, name, StringComparison.CurrentCultureIgnoreCase));
 
-                if (country != null)
-                    return country;
-			}
+
+                return country;
+            }
 
 			var locationApi = new LocationApi(_ncdcApiManager);
             info = locationApi.GetCountry(code,name).Result;
@@ -99,6 +105,11 @@ namespace TravelioCore.Api
             return info;
 		}
 
+        /// <summary>
+        /// Gets the temperature for location starting from a server side configured historical starting date and ending approx. today.
+        /// </summary>
+        /// <returns>The temperature for location.</returns>
+        /// <param name="locationId">Location identifier.</param>
 		[HttpGet]
         [ActionName("data/temperature/{locationId}")]
 		public IEnumerable<Data> GetTemperatureForLocation(string locationId)
@@ -131,7 +142,7 @@ namespace TravelioCore.Api
 
 			var dataApi = new DataApi(_ncdcApiManager);
 
-			var dataTask = dataApi.GetDataAsync(new List<DataType> { DataType.PRCP }, DataSet.GSOM, locationId, _historicalStartDate, DateTime.Now);
+            var dataTask = dataApi.GetDataAsync(new List<DataType> { DataType.PRCP, DataType.DP01 }, DataSet.GSOM, locationId, _historicalStartDate, DateTime.Now);
 			dataTask.Wait();
 
 			var cacheEntryOptions = new MemoryCacheEntryOptions()
@@ -152,7 +163,7 @@ namespace TravelioCore.Api
 
 			var dataApi = new DataApi(_ncdcApiManager);
 
-            var dataTask = await dataApi.GetDataAsync(new List<DataType> { DataType.PRCP, DataType.TMAX, DataType.TMIN, DataType.TAVG },
+            var dataTask = await dataApi.GetDataAsync(new List<DataType> { DataType.PRCP, DataType.TMAX, DataType.TMIN, DataType.TAVG, DataType.DP01 },
                                                 DataSet.GSOM, locationId, _historicalStartDate, DateTime.Now);
 			
 			var cacheEntryOptions = new MemoryCacheEntryOptions()
@@ -162,16 +173,18 @@ namespace TravelioCore.Api
 			return dataTask;
 		}
 
-        /// <summary>
-        /// Gets the quick data for location based on AVG temperature and PRCP.
-        /// </summary>
-        /// <returns>The quick data for location.</returns>
-        /// <param name="locationId">Location identifier.</param>
+		/// <summary>
+		/// Gets the quick data for location based on AVG temperature and PRCP.
+		/// </summary>
+		/// <returns>The quick data for location.</returns>
+		/// <param name="locationId">Location identifier.</param>
+		/// <param name="month">The desired month.</param>
+		/// <param name="ignoreCache">Ignores the cache and reloads data for that month/country if set as true.</param>
 		[HttpGet]
-        [ActionName("data/monthly/{locationId}")]
-        public async Task<IEnumerable<Data>> GetQuickDataForLocation([FromQuery] int month,string locationId)
+        [ActionName("data/monthly/{month}/{locationId}")]
+        public async Task<IEnumerable<Data>> GetQuickDataForLocation(int month, string locationId, [FromQuery] bool ignoreCache = false)
 		{
-			if (_memCache.TryGetValue(month+"MonthlyData" + locationId, out IEnumerable<Data> data))
+			if (!ignoreCache && _memCache.TryGetValue(month+"MonthlyData" + locationId, out IEnumerable<Data> data))
 			{
 				return data;
 			}
@@ -179,13 +192,13 @@ namespace TravelioCore.Api
 			var dataApi = new DataApi(_ncdcApiManager);
             var taskList = new List<Task<IEnumerable<Data>>>();
 
-            for (int i = 0; i <= 2;i++)
+            for (int i = 0; i <= 5;i++)
             {
                 var endDateString = DateTime.Now.Year-i + "-" + month.ToString().PadLeft(2, '0') + "-" + DateTime.DaysInMonth(DateTime.Now.Year, month).ToString().PadLeft(2, '0');
 				var endDate = DateTime.Parse(endDateString);
 				var startDate = DateTime.Parse(DateTime.Now.Year-i + "-" + month.ToString().PadLeft(2, '0') + "-01");
 
-                taskList.Add(dataApi.GetDataAsync(new List<DataType> { DataType.PRCP, DataType.TAVG }, DataSet.GSOM, locationId, startDate, endDate));
+                taskList.Add(dataApi.GetDataAsync(new List<DataType> { DataType.PRCP,DataType.DP01, DataType.TMAX, DataType.TMIN }, DataSet.GSOM, locationId, startDate, endDate));
             }
 
             var results = await Task.WhenAll(taskList);

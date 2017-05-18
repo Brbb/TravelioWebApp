@@ -1,16 +1,19 @@
 ﻿<Properties StartupConfiguration="{6D148954-D162-4C75-8226-849E878A3BFB}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="TravelioCore Status">
+  <MonoDevelop.Ide.Workbench ActiveDocument="TravelioCore/appsettings.json">
     <Files>
-      <File FileName="TravelioCore/Controllers/DestinationController.cs" Line="71" Column="1" />
-      <File FileName="TravelioCore/Views/Destination/SearchBestPlaceToGo.cshtml" Line="31" Column="39" />
-      <File FileName="TravelioCore/Components/TravelioCountryViewComponent.cs" Line="32" Column="1" />
-      <File FileName="TravelioCore/Api/TravelioController.cs" Line="46" Column="1" />
-      <File FileName="TravelioCore/Controllers/HomeController.cs" Line="68" Column="1" />
-      <File FileName="TravelioCore/Api/HistoricalController.cs" Line="202" Column="1" />
-      <File FileName="TravelioCore/appsettings.json" Line="9" Column="25" />
-      <File FileName="NcdcLib/Api/DataApi.cs" Line="17" Column="45" />
-      <File FileName="TravelioCore/Api/VisaController.cs" Line="63" Column="34" />
-      <File FileName="TravelioCore Status" />
+      <File FileName="TravelioCore/Api/TravelioController.cs" Line="40" Column="22" />
+      <File FileName="TravelioCore/Controllers/DestinationController.cs" Line="105" Column="81" />
+      <File FileName="TravelioCore/Controllers/HomeController.cs" Line="156" Column="70" />
+      <File FileName="TravelioCore/Models/HomeModel.cs" Line="10" Column="32" />
+      <File FileName="TravelioCore/Views/Destination/SearchBestPlaceToGo.cshtml" Line="34" Column="80" />
+      <File FileName="TravelioCore/Components/TravelioCountryViewComponent.cs" Line="40" Column="18" />
+      <File FileName="TravelioCore/Views/Destination/Components/TravelioCountry/Default.cshtml" Line="28" Column="6" />
+      <File FileName="TravelioCore/Views/Home/Index.cshtml" Line="249" Column="99" />
+      <File FileName="TravelioCore/wwwroot/lib/others/js/travelio.js" Line="124" Column="11" />
+      <File FileName="TravelioCore/Models/DestinationModel.cs" Line="10" Column="6" />
+      <File FileName="TravelioApi/Models/TravelioCountry.cs" Line="14" Column="31" />
+      <File FileName="TravelioCore/Models/BestDestinationDto.cs" Line="5" Column="30" />
+      <File FileName="TravelioCore/appsettings.json" Line="9" Column="49" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
@@ -18,9 +21,6 @@
     <BreakpointStore>
       <Breakpoint file="/Users/fdl/Projects/TravelioCore/TravelioCore/Api/ConfigurationController.cs" relfile="TravelioCore/Api/ConfigurationController.cs" line="28" column="1" />
       <Breakpoint file="/Users/fdl/Projects/TravelioCore/TravelioCore/Api/ConfigurationController.cs" relfile="TravelioCore/Api/ConfigurationController.cs" line="20" column="34" />
-      <Breakpoint file="/Users/fdl/Projects/TravelioCore/TravelioCore/Api/HistoricalController.cs" relfile="TravelioCore/Api/HistoricalController.cs" line="85" column="1" />
-      <Breakpoint file="/Users/fdl/Projects/TravelioCore/TravelioCore/Controllers/HomeController.cs" relfile="TravelioCore/Controllers/HomeController.cs" line="55" column="1" />
-      <Breakpoint file="/Users/fdl/Projects/TravelioCore/TravelioCore/Api/HistoricalController.cs" relfile="TravelioCore/Api/HistoricalController.cs" line="176" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

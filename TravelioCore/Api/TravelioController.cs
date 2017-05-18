@@ -30,14 +30,25 @@ namespace TravelioCore.Api
             _memCache = memCache;
         }
 
+        /// <summary>
+        /// Gets the travelio country monthly data using the geo country code.
+        /// </summary>
+        /// <returns>The travelio country monthly historical data.</returns>
+        /// <param name="code">The Geo Country Alpha2Code</param>
+        /// <param name="month">The desired month passed as a query value. If not provided it will be the current month.</param>
         [HttpGet]
         [ActionName("countries/code/{code}")]
-        public async Task<TravelioCountry> GetTravelioCountryByCode(string code,[FromQuery] int month)
+        public async Task<TravelioCountry> GetTravelioCountryMonthlyDataByCode(string code,[FromQuery] int month)
         {
+            if(month <=0)
+            {
+                month = DateTime.Now.Month;
+            }
+
             var visaApi = new VisaController(_memCache, _configuration);
             var countryData = await visaApi.GetCountryMap(code);
 
-            if (_memCache.TryGetValue(countryData.Alpha2Code + "TravelioInfo", out TravelioCountry travelioCountry))
+            if (_memCache.TryGetValue(countryData.Alpha2Code + "TravelioInfo"+month, out TravelioCountry travelioCountry))
             {
                 return travelioCountry;
             }
@@ -45,14 +56,25 @@ namespace TravelioCore.Api
             return await PopulateTravelioCountry(month,countryData);
         }
 
-        [HttpGet]
+		/// <summary>
+		/// Gets the travelio country monthly data using the geo country name.
+		/// </summary>
+		/// <returns>The travelio country monthly historical data.</returns>
+		/// <param name="name">The Geo Country Name</param>
+		/// <param name="month">The desired month passed as a query value. If not provided it will be the current month.</param>
+		[HttpGet]
         [ActionName("countries/name/{name}")]
-        public async Task<TravelioCountry> GetTravelioCountryByName(string name, [FromQuery] int month)
-        {
+        public async Task<TravelioCountry> GetTravelioCountryMonthlyDataByName(string name, [FromQuery] int month)
+		{
+			if (month <= 0)
+			{
+				month = DateTime.Now.Month;
+			}
+
             var visaApi = new VisaController(_memCache, _configuration);
             var countryData = await visaApi.GetCountryMapByName(name);
 
-            if (_memCache.TryGetValue(countryData.Alpha2Code + "TravelioInfo", out TravelioCountry travelioCountry))
+            if (_memCache.TryGetValue(countryData.Alpha2Code + "TravelioInfo"+month, out TravelioCountry travelioCountry))
             {
                 return travelioCountry;
             }
@@ -68,14 +90,25 @@ namespace TravelioCore.Api
             if (locationInfo != null)
             {
                 var data = await historicalController.GetQuickDataForLocation(month, locationInfo.LocationId);
-                var travelioCountry = new TravelioCountry(countryData, locationInfo, data);
+                if (data != null)
+                {
+                    var aggregate = data.GroupBy(hd => new { DataType = hd.DataType })
+                                              .Select(g => new AggregateData
+                                              {
+                                                  Label = g.Key.DataType.Description(),
+                                                  Value = Math.Round(g.Average(x => x.Value), 1),
 
-                var cacheEntryOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromDays(1));
+                                              }).ToList();
 
-                _memCache.Set(countryData.Alpha2Code + "TravelioInfo", travelioCountry, cacheEntryOptions);
+                    var travelioCountry = new TravelioCountry(countryData, locationInfo, aggregate);
 
-                return travelioCountry;
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                        .SetAbsoluteExpiration(TimeSpan.FromDays(1));
+
+                    _memCache.Set(countryData.Alpha2Code + "TravelioInfo" + month, travelioCountry, cacheEntryOptions);
+
+                    return travelioCountry;
+                }
             }
 
             return null;

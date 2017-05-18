@@ -1,8 +1,8 @@
 /Users/fdl/Projects/TravelioCore/CloudManager/bin/Debug/netstandard1.6/StorageManager.deps.json
 /Users/fdl/Projects/TravelioCore/CloudManager/bin/Debug/netstandard1.6/StorageManager.dll
 /Users/fdl/Projects/TravelioCore/CloudManager/bin/Debug/netstandard1.6/StorageManager.pdb
-/Users/fdl/Projects/TravelioCore/CloudManager/obj/Debug/netstandard1.6/StorageManager.csprojResolveAssemblyReference.cache
 /Users/fdl/Projects/TravelioCore/CloudManager/obj/Debug/netstandard1.6/StorageManager.csproj.CoreCompileInputs.cache
 /Users/fdl/Projects/TravelioCore/CloudManager/obj/Debug/netstandard1.6/StorageManager.AssemblyInfo.cs
 /Users/fdl/Projects/TravelioCore/CloudManager/obj/Debug/netstandard1.6/StorageManager.dll
 /Users/fdl/Projects/TravelioCore/CloudManager/obj/Debug/netstandard1.6/StorageManager.pdb
+/Users/fdl/Projects/TravelioCore/CloudManager/obj/Debug/netstandard1.6/StorageManager.csprojResolveAssemblyReference.cache

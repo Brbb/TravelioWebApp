@@ -32,20 +32,25 @@ namespace NcdcLib.Api
             {
                 var data = JsonConvert.DeserializeObject<NcdcResult<Data>>(dataString);
 
-                totalData.AddRange(data.Results);
-
-                while (data.Metadata.ResultSet.Count > data.Metadata.ResultSet.Limit + data.Metadata.ResultSet.Offset)
+                if (data != null && data.Results != null)
                 {
-                    var victim = parameters.FirstOrDefault(p => string.Equals(p.Key, "Offset", StringComparison.CurrentCultureIgnoreCase));
-                    parameters.Remove(victim);
+                    totalData.AddRange(data.Results);
 
-                    var threshold = data.Metadata.ResultSet.Limit + data.Metadata.ResultSet.Offset;
-                    parameters.Add(new KeyValuePair<string, string>("offset", threshold.ToString()));
-                    dataString = await ApiManager.GetStringAsync(GetRequestString(parameters));
-                    if (!String.IsNullOrEmpty(dataString))
+                    while (data.Metadata.ResultSet.Count > data.Metadata.ResultSet.Limit + data.Metadata.ResultSet.Offset)
                     {
-                        data = JsonConvert.DeserializeObject<NcdcResult<Data>>(dataString);
-                        totalData.AddRange(data.Results);
+                        var victim = parameters.FirstOrDefault(p => string.Equals(p.Key, "Offset", StringComparison.CurrentCultureIgnoreCase));
+                        parameters.Remove(victim);
+
+                        var threshold = data.Metadata.ResultSet.Limit + data.Metadata.ResultSet.Offset;
+                        parameters.Add(new KeyValuePair<string, string>("offset", threshold.ToString()));
+                        dataString = await ApiManager.GetStringAsync(GetRequestString(parameters));
+                        if (!String.IsNullOrEmpty(dataString))
+                        {
+                            data = JsonConvert.DeserializeObject<NcdcResult<Data>>(dataString);
+
+                            if (data != null && data.Results != null)
+                                totalData.AddRange(data.Results);
+                        }
                     }
                 }
             }
